@@ -1,0 +1,46 @@
+﻿@page "/"
+@inject InterviewApp.Client.Services.Interface.IInterviewService InterviewService
+
+@using InterviewApp.Shared.Models
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudTextField @bind-Value="SearchValue" Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.FilterList" />
+    </MudItem>
+    <MudItem xs="12">
+        @if (_all != null && _currIndexList != null)
+        {
+            <MudExpansionPanels MultiExpansion="true">
+                @for (int i = 0; i < _currentFiltered.Count; i++)
+                {
+                    var count = i + 1;
+                    var title = "Question " + count;
+                    var question = _currentFiltered[i];
+
+                    <MudExpansionPanel Text="@title">
+                        <p class="question">@question.Content</p>
+                        <div class="question-detail">
+                            <div class="float-left">
+                                <p><span>Category</span>@question.Category</p>
+                            </div>
+                            <div class="float-right">
+                                <span>Difficulty</span>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <MudIcon Class="@(i < question.Difficulty ? "difficulty active" : "difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
+                                }
+                            </div>
+                            <div class="float-right" style="margin-right: 20px">
+                                <span>Rating</span>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <MudIcon class="rating active" Icon="@Icons.Material.Filled.Star" />
+                                }
+                            </div>
+                        </div>
+                    </MudExpansionPanel>
+                }
+            </MudExpansionPanels>
+        }
+    </MudItem>
+</MudGrid>

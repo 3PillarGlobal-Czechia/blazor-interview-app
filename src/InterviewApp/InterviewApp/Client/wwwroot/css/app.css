@@ -1,0 +1,47 @@
+﻿
+.mud-expand-panel-content .question-detail .float-left {
+    margin-right: 20px;
+    display: inline-block;
+}
+.mud-expand-panel-content .question-detail .float-right {
+    display: inline-block;
+    float: right;
+}
+
+    .mud-expand-panel-content .question-detail .float-left p span {
+        margin-bottom: 2px;
+    }
+
+.mud-expand-panel-content p {
+    margin-bottom: 10px;
+}
+
+.mud-expand-panel-content p.question {
+    text-align: justify;
+}
+
+.mud-expand-panel-content span {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #a0a0a0;
+}
+
+.mud-svg-icon {
+    margin-top: 2px;
+    font-size: 22px;
+    opacity: 0.33;
+}
+
+    .mud-svg-icon.difficulty {
+        color: #ef5350;
+    }
+
+    .mud-svg-icon.rating {
+        color: #ffc107;
+    }
+
+    .mud-svg-icon.active {
+        opacity: 1;
+    }
