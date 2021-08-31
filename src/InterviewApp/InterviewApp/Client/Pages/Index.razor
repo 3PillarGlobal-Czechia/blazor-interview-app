@@ -8,7 +8,7 @@
         <MudTextField @bind-Value="SearchValue" Label="Search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Filled.FilterList" />
     </MudItem>
     <MudItem xs="12">
-        @if (_all != null && _currIndexList != null)
+        @if (_all != null && _currIndexList != null && _currentFiltered != null)
         {
             <MudExpansionPanels MultiExpansion="true">
                 @for (int i = 0; i < _currentFiltered.Count; i++)
