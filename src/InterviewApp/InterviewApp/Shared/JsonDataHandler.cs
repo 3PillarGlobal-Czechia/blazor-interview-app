@@ -15,7 +15,7 @@ namespace InterviewApp.Shared
                 throw new ArgumentNullException(nameof(projectDirectory));
             }
 
-            var filePath = Path.Combine(projectDirectory, "data", "questions.json");
+            var filePath = Path.Combine(projectDirectory, "InterviewApp\\InterviewApp\\Shared\\questions.json");
             var fileContent = File.ReadAllText(filePath);
 
             if (fileContent == null)

@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Shared\InterviewApp.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
+
 </Project>

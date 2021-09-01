@@ -1,4 +1,5 @@
 ﻿using InterviewApp.Shared;
+using InterviewApp.Shared.Interface;
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,12 +9,12 @@ namespace InterviewApp.Server.Controllers;
 [ApiController]
 public class InterviewController : ControllerBase
 {
-    private readonly JsonDataHandler _dataHandler;
+    private readonly IDataHandler _dataHandler;
     private readonly ILogger<InterviewController> _logger;
 
-    public InterviewController(ILogger<InterviewController> logger)
+    public InterviewController(/*IDataHandler dataHandler, */ILogger<InterviewController> logger)
     {
-        _dataHandler = new JsonDataHandler();
+        _dataHandler = /*dataHandler*/new JsonDataHandler();
         _logger = logger;
     }
 

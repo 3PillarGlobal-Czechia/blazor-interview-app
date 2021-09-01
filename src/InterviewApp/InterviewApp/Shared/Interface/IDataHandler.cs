@@ -2,7 +2,7 @@
 
 namespace InterviewApp.Shared.Interface
 {
-    interface IDataHandler
+    public interface IDataHandler
     {
         List<InterviewQuestion> GetDataFromFile();
     }

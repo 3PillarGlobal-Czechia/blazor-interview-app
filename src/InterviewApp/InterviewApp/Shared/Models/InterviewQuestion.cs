@@ -9,6 +9,8 @@ namespace InterviewApp.Shared.Models
 {
     public class InterviewQuestion
     {
+        public string? Title { get; set; }
+
         [Required]
         public int Difficulty { get; set; }
 
@@ -18,6 +20,10 @@ namespace InterviewApp.Shared.Models
         [Required]
         public string? Content { get; set; }
 
-        public string? Rating { get; set; }
+        public int Rating { get; set; }
+
+        public bool IsPinned { get; set; }
+
+        public string? Note { get; set; }
     }
 }

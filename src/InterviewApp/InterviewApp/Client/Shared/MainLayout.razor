@@ -1,11 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
+<MudThemeProvider Theme="currentTheme" />
+<MudDialogProvider CloseButton="true" />
 
 <MudLayout>
-    <MudMainContent>
-        <MudContainer Fixed="true">
-            @Body
+    <MudMainContent Style="padding-top: 40px">
+        <MudContainer MaxWidth="MaxWidth.Medium">
+            <MudContainer Fixed="true">
+                @Body
+            </MudContainer>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
+<MudContainer Style="position: fixed; top: 10px; right: 0" Class="d-flex justify-end">
+    <MudTooltip Text="Switch theme" Placement="Placement.Start" Class="theme-tooltip">
+        <MudIconButton OnClick="() => SwitchTheme()" Icon="@Icons.Material.Filled.BrightnessMedium" />
+    </MudTooltip>
+</MudContainer>
