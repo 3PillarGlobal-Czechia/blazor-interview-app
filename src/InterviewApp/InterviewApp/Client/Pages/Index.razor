@@ -28,16 +28,9 @@
                     <MudExpansionPanel>
                         <TitleContent>
                             <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
-                            <MudToggleIconButton ToggledChanged="() => TogglePin(question)" Class="mr-2 pin-toggle" Size="Size.Small" ToggledSize="Size.Small" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Toggled="true" Style="float: right" />
-                            @if (string.IsNullOrWhiteSpace(question.Note))
-                            {
-                                <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="mr-1" Size="Size.Small" ToggledSize="Size.Small" Icon="@Icons.Material.Outlined.ChatBubbleOutline" Style="float: right" />
-                            }
-                            else
-                            {
-                                <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="mr-1" Size="Size.Small" ToggledSize="Size.Small" Icon="@Icons.Material.Outlined.ChatBubble" Style="float: right" />
-                            }    
-                            <MudIconButton OnClick="() => OpenResetDialog(question)" Class="mr-1" Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
+                            <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
+                            <MudIconButton OnClick="() => OpenResetDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
                         </TitleContent>
                         <ChildContent>
                             <p class="question">@question.Content</p>
@@ -53,7 +46,7 @@
                                     }
                                 </div>
                                 <div class="float-right" style="margin-right: 20px">
-                                    <span class="tag">Rating (@question.Rating)</span>                                    
+                                    <span class="tag">Rating (@question.Rating)</span>
                                     <MudRating Size="Size.Medium" @bind-SelectedValue="question.Rating" />
                                 </div>
                             </div>
@@ -65,7 +58,7 @@
         @if (_all != null && _currIndexList != null && _currentFiltered != null)
         {
             <p class="ml-1 expansion-panel-section">All questions</p>
-            <MudExpansionPanels Class="mt-1 mb-8" MultiExpansion="true" Elevation="1">
+            <MudExpansionPanels Class="mt-1 mb-6" MultiExpansion="true" Elevation="1">
                 @for (int i = 0; i < _currentFiltered.Count; i++)
                 {
                     var count = i + 1;
@@ -74,16 +67,9 @@
                     <MudExpansionPanel>
                         <TitleContent>
                             <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
-                            <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="mr-2 pin-toggle" Size="Size.Small" ToggledSize="Size.Small" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
-                            @if (string.IsNullOrWhiteSpace(question.Note))
-                            {
-                                <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="mr-1" Size="Size.Small" ToggledSize="Size.Small" Icon="@Icons.Material.Outlined.ChatBubbleOutline" Style="float: right" />
-                            }
-                            else
-                            {
-                                <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="mr-1" Size="Size.Small" ToggledSize="Size.Small" Icon="@Icons.Material.Outlined.ChatBubble" Style="float: right" />
-                            }                          
-                            <MudIconButton OnClick="() => OpenResetDialog(question)" Class="mr-1" Size="Size.Small" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
+                            <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
+                            <MudIconButton OnClick="() => OpenResetDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
                         </TitleContent>
                         <ChildContent>
                             <p class="question">@question.Content</p>

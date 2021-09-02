@@ -1,4 +1,8 @@
 ﻿
+.search .mud-input-label {
+    background-color: var(--mud-palette-background);
+}
+
 .mud-expand-panel-content .question-detail .float-left {
     margin-right: 20px;
     display: inline-block;
@@ -33,6 +37,16 @@
     font-weight: 500;
     text-transform: uppercase;
     color: #a0a0a0;
+}
+
+.mud-icon-button.expansion-header-icons {
+    padding: 2px 8px;
+    transition: opacity ease-in-out .175s;
+}
+
+.mud-icon-button.expansion-header-icons:hover {
+    background-color: transparent;
+    opacity: 0.5;
 }
 
 .question-icon {

@@ -6,15 +6,23 @@ public partial class MainLayout
 {
     MudTheme currentTheme = new MudTheme();
 
-    MudTheme defaultTheme = new MudTheme(); 
-    MudTheme darkTheme = new MudTheme()
+    MudTheme defaultTheme = new MudTheme
     {
-        Palette = new Palette()
+        Palette = new Palette
         {
+            Primary = Colors.Blue.Default
+        }
+    };
+
+    MudTheme darkTheme = new MudTheme
+    {
+        Palette = new Palette
+        {
+            Primary = Colors.Blue.Default,
             Black = "#27272f",
-            Background = "#32333d",
+            Background = "#373740",
             BackgroundGrey = "#27272f",
-            Surface = "#373740",
+            Surface = "#40404C",
             DrawerBackground = "#27272f",
             DrawerText = "rgba(255,255,255, 0.50)",
             DrawerIcon = "rgba(255,255,255, 0.50)",
