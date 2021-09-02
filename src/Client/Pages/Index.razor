@@ -19,7 +19,7 @@
         @if (_all != null && _currIndexList != null && _currentFiltered != null && _pinnedFiltered != null && _pinnedFiltered.Count > 0)
         {
             <p class="ml-1 expansion-panel-section">Pinned questions</p>
-            <MudExpansionPanels Class="mt-1 mb-8" MultiExpansion="true" Elevation="1">
+            <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
                 @for (int i = 0; i < _pinnedFiltered.Count; i++)
                 {
                     var count = i + 1;
@@ -53,7 +53,7 @@
                         </ChildContent>
                     </MudExpansionPanel>
                 }
-            </MudExpansionPanels>
+            </MudExpansionPanels>            
         }
         @if (_all != null && _currIndexList != null && _currentFiltered != null)
         {
