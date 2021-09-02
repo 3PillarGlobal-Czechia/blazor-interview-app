@@ -10,7 +10,8 @@ public partial class MainLayout
     {
         Palette = new Palette
         {
-            Primary = Colors.Blue.Default
+            Primary = Colors.Blue.Default,
+            Background = "#F9F9F9"
         }
     };
 

@@ -11,9 +11,9 @@ public class InterviewController : ControllerBase
     private readonly IDataHandler _dataHandler;
     private readonly ILogger<InterviewController> _logger;
 
-    public InterviewController(/*IDataHandler dataHandler, */ILogger<InterviewController> logger)
+    public InterviewController(IDataHandler dataHandler, ILogger<InterviewController> logger)
     {
-        _dataHandler = /*dataHandler*/new JsonDataHandler();
+        _dataHandler = dataHandler;
         _logger = logger;
     }
 
