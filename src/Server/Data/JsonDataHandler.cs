@@ -6,31 +6,25 @@ namespace InterviewApp.Server.Data
 {
     public class JsonDataHandler : IDataHandler
     {
-        private readonly string _jsonFilePath;
+        private readonly IEnumerable<InterviewQuestion> _interviewQuestions;
 
         public JsonDataHandler()
         {
             var executablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            if(executablePath is null)
+            if (executablePath is null)
                 throw new ArgumentNullException("Executable path was null");
 
-            _jsonFilePath = Path.Combine(executablePath, "questions.json");
-        }
+            var jsonFilePath = Path.Combine(executablePath, "questions.json");
 
-        public List<InterviewQuestion> GetInterviewQuestions()
-        {
-            var fileContent = File.ReadAllText(_jsonFilePath);
+            var fileContent = File.ReadAllText(jsonFilePath);
 
             if (fileContent is null)
                 throw new ArgumentNullException(nameof(fileContent));
 
-            var jsonData = JsonConvert.DeserializeObject<List<InterviewQuestion>>(fileContent);
-
-            if (jsonData is null)
-                throw new ArgumentNullException(nameof(jsonData));
-
-            return jsonData;
+            _interviewQuestions = JsonConvert.DeserializeObject<IEnumerable<InterviewQuestion>>(fileContent) ?? Array.Empty<InterviewQuestion>();
         }
+
+        public List<InterviewQuestion> GetInterviewQuestions() => _interviewQuestions.ToList();       
     }
 }
