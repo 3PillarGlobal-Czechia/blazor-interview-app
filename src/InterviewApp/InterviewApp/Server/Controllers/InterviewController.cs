@@ -1,5 +1,4 @@
-﻿using InterviewApp.Shared;
-using InterviewApp.Shared.Interface;
+﻿using InterviewApp.Server.Data;
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +20,7 @@ public class InterviewController : ControllerBase
     [HttpGet]
     public List<InterviewQuestion> Get()
     {
-        var data = _dataHandler.GetDataFromFile();
+        var data = _dataHandler.GetInterviewQuestions();
 
         if (data == null)
         {

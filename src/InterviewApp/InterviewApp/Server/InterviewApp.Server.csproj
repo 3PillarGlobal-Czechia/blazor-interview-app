@@ -15,5 +15,10 @@
     <ProjectReference Include="..\Shared\InterviewApp.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="questions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
