@@ -1,8 +1,6 @@
 using InterviewApp.Client;
 using InterviewApp.Client.Services;
 using InterviewApp.Client.Services.Interface;
-using InterviewApp.Shared;
-using InterviewApp.Shared.Interface;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 
@@ -11,7 +9,6 @@ builder.RootComponents.Add<App>("#app");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IInterviewService, InterviewService>();
-builder.Services.AddSingleton<IDataHandler, JsonDataHandler>();
 
 builder.Services.AddMudServices();
 
