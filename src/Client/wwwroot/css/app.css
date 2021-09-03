@@ -39,12 +39,13 @@
     color: #a0a0a0;
 }
 
-.mud-icon-button.expansion-header-icons {
+.expansion-header-icons {
+    float: right;
     padding: 2px 8px;
     transition: opacity ease-in-out .175s;
 }
 
-.mud-icon-button.expansion-header-icons:hover {
+.expansion-header-icons:hover {
     background-color: transparent;
     opacity: 0.5;
 }
