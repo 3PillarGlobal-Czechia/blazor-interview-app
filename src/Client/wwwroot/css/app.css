@@ -40,14 +40,13 @@
 }
 
 .expansion-header-icons {
-    float: right;
-    padding: 2px 8px;
-    transition: opacity ease-in-out .175s;
+    padding: 2px 8px !important;
+    transition: opacity ease-in-out .175s !important;
 }
 
 .expansion-header-icons:hover {
-    background-color: transparent;
-    opacity: 0.5;
+    background-color: transparent !important;
+    opacity: 0.5 !important;
 }
 
 .question-icon {
@@ -68,7 +67,8 @@
         opacity: 1;
     }
 
-.note-dialog .mud-dialog-content {
+.note-dialog .mud-dialog-content,
+.report-dialog .mud-dialog-content {
     padding: 0 24px 8px 24px !important;
 }
 

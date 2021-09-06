@@ -1,0 +1,50 @@
+﻿@using InterviewApp.Client.Extensions
+
+<MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
+    @if (InterviewQuestions is not null)
+        for (int i = 0; i < InterviewQuestions.Count; i++)
+        {
+            var question = InterviewQuestions[i];
+
+            if (question is not null)
+            {
+                var count = i + 1;
+
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <MudText Class="d-inline-block" Typo="Typo.subtitle1">@question.Title</MudText>
+                        <AppPinToggle Toggled="@question.IsPinned" OnToggledChanged="() => TogglePin(question)" />
+                        <MudIconButton Class="expansion-header-icons"
+                           Size="Size.Medium"
+                           Icon="@(string.IsNullOrWhiteSpace(question.Note) ? Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)"
+                           OnClick="() => OpenNoteDialog(question)">
+                        </MudIconButton>
+                        <MudIconButton Class="expansion-header-icons"
+                           Size="Size.Medium"
+                           Icon="@Icons.Material.Filled.Refresh"
+                           OnClick="() => OpenResetDialog(question)">
+                        </MudIconButton>
+                    </TitleContent>
+                    <ChildContent>
+                        <p class="question">@question.Content</p>
+                        <div class="question-detail">
+                            <div class="float-left">
+                                <p><span class="tag">Category</span>@question.Category</p>
+                            </div>
+                            <div class="float-right">
+                                <span class="tag">Difficulty</span>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <MudIcon Class="@(i < question.Difficulty ? "question-icon difficulty active" : "question-icon difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
+                                }
+                            </div>
+                            <div class="float-right mr-5">
+                                <span class="tag">Rating (@question.Rating)</span>
+                                <MudRating @bind-SelectedValue="question.Rating" Size="Size.Medium" />
+                            </div>
+                        </div>
+                    </ChildContent>
+                </MudExpansionPanel>
+            }
+        }
+</MudExpansionPanels>
