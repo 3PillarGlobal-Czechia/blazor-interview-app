@@ -1,0 +1,28 @@
+name: Deploy website
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+        include-prerelease: true
+    - name: Publish
+      run: dotnet publish -c Release -r linux-x64 -o publish src/Server/InterviewApp.Server.csproj
+    - name: Deploy
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+        chmod 700 ~/.ssh/id_rsa
+        ssh-keyscan -H pindej.cz > ~/.ssh/known_hosts
+        scp -o StrictHostKeyChecking=no -r ./publish/* root@pindej.cz://var/www/interview
+        ssh root@pindej.cz 'systemctl restart interview'
