@@ -9,10 +9,10 @@
     <MudItem xs="12" Style="padding-bottom: 0">
         <MudTextField @bind-Value="SearchValue" Immediate="true" Label="Search" Class="search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Filled.Search" />
         <MudToolBar Class="mx-0 px-0">
-            <MudButton Class="mr-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Download" Color="Color.Primary">Download</MudButton>
+            <MudButton OnClick="OpenReportDialog" Class="mr-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Assignment" Color="Color.Primary">Open Report</MudButton>
             <MudSpacer />
             <MudButton Class="ml-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Settings" Color="Color.Default">Settings</MudButton>
-            <MudButton @onclick="OpenResetAllDialog" Class="ml-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
+            <MudButton OnClick="OpenResetAllDialog" Class="ml-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
         </MudToolBar>
     </MudItem>
     <MudItem xs="12" Class="pt-0">
@@ -29,8 +29,8 @@
                         <TitleContent>
                             <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
                             <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
-                            <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
-                            <MudIconButton OnClick="() => OpenResetDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
+                            <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
                         </TitleContent>
                         <ChildContent>
                             <p class="question">@question.Content</p>
@@ -39,7 +39,7 @@
                                     <p><span class="tag">Category</span>@question.Category</p>
                                 </div>
                                 <div class="float-right">
-                                    <span class="tag">Difficulty</span>
+                                    <span class="tag">Difficulty (@question.Difficulty)</span>
                                     @for (int i = 0; i < 5; i++)
                                     {
                                         <MudIcon Class="@(i < question.Difficulty ? "question-icon difficulty active" : "question-icon difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
@@ -68,8 +68,8 @@
                         <TitleContent>
                             <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
                             <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
-                            <MudIconButton OnClick="() => OpenNoteDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
-                            <MudIconButton OnClick="() => OpenResetDialog(question)" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
+                            <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
                         </TitleContent>
                         <ChildContent>
                             <p class="question">@question.Content</p>
@@ -78,7 +78,7 @@
                                     <p><span class="tag">Category</span>@question.Category</p>
                                 </div>
                                 <div class="float-right">
-                                    <span class="tag">Difficulty</span>
+                                    <span class="tag">Difficulty (@question.Difficulty)</span>
                                     @for (int i = 0; i < 5; i++)
                                     {
                                         <MudIcon Class="@(i < question.Difficulty ? "question-icon difficulty active" : "question-icon difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
