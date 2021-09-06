@@ -1,0 +1,9 @@
+﻿<MudDialog Class="report-dialog">
+    <DialogContent>
+        <MudTextFieldString @bind-Value="ReportText" ReadOnly="true" Immediate="true" Lines="30" Label="Report" Class="report" Variant="Variant.Outlined" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Default" OnClick="Cancel">Close</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Download">Download</MudButton>
+    </DialogActions>
+</MudDialog>

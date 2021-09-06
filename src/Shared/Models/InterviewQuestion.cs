@@ -25,5 +25,16 @@ namespace InterviewApp.Shared.Models
         public bool IsPinned { get; set; }
 
         public string? Note { get; set; }
+
+        public override string ToString()
+        {
+            var text = new StringBuilder();
+
+            text.AppendLine(Title);
+            text.AppendLine($"Rating: {Rating}; Difficulty: {Difficulty}");
+            text.AppendLine(Note);
+
+            return text.ToString();
+        }
     }
 }
