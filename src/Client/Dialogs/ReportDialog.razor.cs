@@ -1,6 +1,8 @@
 ﻿
+using InterviewApp.Client.Extensions;
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using MudBlazor;
 using System.Text;
 
@@ -12,6 +14,9 @@ public partial class ReportDialog
 
     [Parameter] public List<InterviewQuestion>? Questions { get; set; }
 
+    [Inject]
+    public IJSRuntime? JSRuntime { get; set; }
+
     public string? ReportText { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -21,7 +26,10 @@ public partial class ReportDialog
             var titleText = new StringBuilder();
             var contentText = new StringBuilder();
 
-            Questions.ForEach((q) => contentText.AppendLine(q.ToString()));
+            Questions.ForEach((q) => {
+                if (q.Rating > 0 || !string.IsNullOrWhiteSpace(q.Note))
+                    contentText.AppendLine(q.ToString());
+            });
 
             var ratedQuestions = Questions.Where(x => x.Rating > 0);
             if (ratedQuestions.Any())
@@ -40,5 +48,7 @@ public partial class ReportDialog
         return base.OnInitializedAsync();
     }
 
-    void Cancel() => MudDialog.Cancel();
+    protected async Task Download() => await JSRuntime!.SaveAsAsync("report.txt", Encoding.UTF8.GetBytes(ReportText!));
+
+    protected void Cancel() => MudDialog.Cancel();
 }

@@ -31,9 +31,8 @@ namespace InterviewApp.Shared.Models
             var text = new StringBuilder();
 
             text.AppendLine(Title);
-            text.AppendLine($"Difficulty: {Difficulty}");
-            text.AppendLine($"Rating: {Rating}");
-            text.AppendLine($"Note: {Note}");
+            text.AppendLine($"Rating: {Rating}; Difficulty: {Difficulty}");
+            text.AppendLine(Note);
 
             return text.ToString();
         }

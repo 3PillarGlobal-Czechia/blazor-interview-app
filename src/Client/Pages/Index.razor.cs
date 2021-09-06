@@ -242,7 +242,7 @@ public partial class Index
             FullWidth = true
         };
 
-        _dialogService.Show<ReportDialog>("Interview Result Report", parameters, options);
+        _dialogService.Show<ReportDialog>("Interview Report", parameters, options);
     }
 
     protected async Task OpenResetAllDialog()
