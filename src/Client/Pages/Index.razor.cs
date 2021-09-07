@@ -28,6 +28,9 @@ public partial class Index
     private IDialogService? _dialogService { get; set; }
 
     [Inject]
+    private IClipboardService? _clipboardService { get; set; }
+
+    [Inject]
     private ISnackbar? _snackbar { get; set; }
 
     private Random _random = new Random();
