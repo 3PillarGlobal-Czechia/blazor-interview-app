@@ -151,6 +151,8 @@ public partial class Index
             throw new ArgumentNullException(nameof(_pinned));
         }
 
+        search = search ?? SearchValue;
+
         if (string.IsNullOrEmpty(search))
         {
             _currentFiltered = _current;
@@ -159,10 +161,12 @@ public partial class Index
         else
         {
             _currentFiltered = _current.Where(x => (x.Content is not null && x.Content.ToLower().Contains(search.ToLower())) ||
-                                                   (x.Category is not null && x.Category.ToLower().Contains(search.ToLower()))).ToList();
+                                                   (x.Category is not null && x.Category.ToLower().Contains(search.ToLower())) ||
+                                                   (x.Note is not null && x.Note.ToLower().Contains(search.ToLower()))).ToList();
 
             _pinnedFiltered = _pinned.Where(x => (x.Content is not null && x.Content.ToLower().Contains(search.ToLower())) ||
-                                                 (x.Category is not null && x.Category.ToLower().Contains(search.ToLower()))).ToList();
+                                                 (x.Category is not null && x.Category.ToLower().Contains(search.ToLower())) ||
+                                                 (x.Note is not null && x.Note.ToLower().Contains(search.ToLower()))).ToList();
         }
     }
 
