@@ -1,5 +1,6 @@
 ﻿
 using InterviewApp.Client.Extensions;
+using InterviewApp.Client.Services.Interface;
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -17,6 +18,9 @@ public partial class ReportDialog
     [Inject]
     public IJSRuntime? JSRuntime { get; set; }
 
+    [Inject]
+    public IClipboardService? ClipboardService { get; set; }
+
     public string? ReportText { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -26,7 +30,8 @@ public partial class ReportDialog
             var titleText = new StringBuilder();
             var contentText = new StringBuilder();
 
-            Questions.ForEach((q) => {
+            Questions.ForEach((q) =>
+            {
                 if (q.Rating > 0 || !string.IsNullOrWhiteSpace(q.Note))
                     contentText.AppendLine(q.ToString());
             });
@@ -48,7 +53,12 @@ public partial class ReportDialog
         return base.OnInitializedAsync();
     }
 
-    protected async Task Download() => await JSRuntime!.SaveAsAsync("report.txt", Encoding.UTF8.GetBytes(ReportText!));
+    protected async Task CopyToClipboard()
+        => await ClipboardService!.WriteTextAsync(ReportText ?? string.Empty);
 
-    protected void Cancel() => MudDialog.Cancel();
+    protected async Task Download()
+        => await JSRuntime!.SaveAsAsync("report.txt", Encoding.UTF8.GetBytes(ReportText!));
+
+    protected void Cancel() 
+        => MudDialog.Cancel();
 }
