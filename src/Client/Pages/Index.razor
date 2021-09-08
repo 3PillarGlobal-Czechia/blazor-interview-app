@@ -28,9 +28,15 @@
                     <MudExpansionPanel>
                         <TitleContent>
                             <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
-                            <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
-                            <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
-                            <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            <MudTooltip Text="@(question.IsPinned ? "Unpin" : "Pin")" Placement="Placement.Bottom" Class="expansion-tooltip">
+                                <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" />
+                            </MudTooltip>
+                            <MudTooltip Text="Notes">
+                                <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
+                            </MudTooltip>
+                            <MudTooltip Text="Reset">
+                                <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            </MudTooltip>
                         </TitleContent>
                         <ChildContent>
                             <p class="question">@question.Content</p>
@@ -67,9 +73,15 @@
                     <MudExpansionPanel>
                         <TitleContent>
                             <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
-                            <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
-                            <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
-                            <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            <MudTooltip Text="@(question.IsPinned ? "Unpin" : "Pin")" Placement="Placement.Bottom" Class="expansion-tooltip">
+                                <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
+                            </MudTooltip>
+                            <MudTooltip Text="Notes">
+                                <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
+                            </MudTooltip>
+                            <MudTooltip Text="Reset">
+                                <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
+                            </MudTooltip>
                         </TitleContent>
                         <ChildContent>
                             <p class="question">@question.Content</p>
