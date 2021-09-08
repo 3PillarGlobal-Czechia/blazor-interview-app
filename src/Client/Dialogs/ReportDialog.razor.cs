@@ -21,6 +21,9 @@ public partial class ReportDialog
     [Inject]
     public IClipboardService? ClipboardService { get; set; }
 
+    [Inject]
+    public ISnackbar? Snackbar { get; set; }
+
     public string? ReportText { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -54,7 +57,16 @@ public partial class ReportDialog
     }
 
     protected async Task CopyToClipboard()
-        => await ClipboardService!.WriteTextAsync(ReportText ?? string.Empty);
+    {
+        if (Snackbar is null)
+        {
+            throw new ArgumentNullException(nameof(Snackbar));
+        }
+
+        await ClipboardService!.WriteTextAsync(ReportText ?? string.Empty);
+
+        Snackbar.Add("Report text copied!", Severity.Info);
+    }
 
     protected async Task Download()
         => await JSRuntime!.SaveAsAsync("report.txt", Encoding.UTF8.GetBytes(ReportText!));
