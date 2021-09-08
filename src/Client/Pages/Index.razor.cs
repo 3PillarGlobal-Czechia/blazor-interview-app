@@ -1,5 +1,6 @@
 ﻿
 using InterviewApp.Client.Dialogs;
+using InterviewApp.Client.Extensions;
 using InterviewApp.Client.Services.Interface;
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
@@ -26,7 +27,13 @@ public partial class Index
     [Inject]
     private IDialogService? _dialogService { get; set; }
 
-    private Random random = new Random();
+    [Inject]
+    private IClipboardService? _clipboardService { get; set; }
+
+    [Inject]
+    private ISnackbar? _snackbar { get; set; }
+
+    private Random _random = new Random();
 
     private List<InterviewQuestion>? _all;
     private List<InterviewQuestion>? _current;
@@ -41,7 +48,7 @@ public partial class Index
 
     protected override async Task OnInitializedAsync()
     {
-        if (_interviewService == null)
+        if (_interviewService is null)
         {
             throw new ArgumentNullException(nameof(_interviewService));
         }
@@ -53,7 +60,7 @@ public partial class Index
 
     protected void Randomize()
     {
-        if (_all == null)
+        if (_all is null)
         {
             throw new ArgumentNullException(nameof(_all));
         }
@@ -67,9 +74,9 @@ public partial class Index
 
         for (int i = 0; i < 10; i++)
         {
-            var index = random.Next(0, _all.Count);
+            var index = _random.Next(0, _all.Count);
 
-            if (_currIndexList.Contains(index) || (_prevIndexList != null && _prevIndexList.Contains(index)))
+            if (_currIndexList.Contains(index) || (_prevIndexList is not null && _prevIndexList.Contains(index)))
             {
                 i--;
             }
@@ -79,6 +86,7 @@ public partial class Index
                 question.Title = $"Question {i + 1}";
                 question.IsPinned = false;
                 question.Rating = 0;
+                question.Note = null;
 
                 _currIndexList.Add(index);
                 _current.Add(question);
@@ -90,59 +98,39 @@ public partial class Index
 
     protected void RandomizeSingle(InterviewQuestion oldQuestion)
     {
-        if (_all == null)
+        if (_all is null)
         {
             throw new ArgumentNullException(nameof(_all));
         }
 
-        if (_pinned == null)
+        if (_pinned is null)
         {
             throw new ArgumentNullException(nameof(_pinned));
         }
 
-        if (_discarded == null)
+        if (_discarded is null)
         {
             throw new ArgumentNullException(nameof(_discarded));
         }
 
-        if (_current == null)
+        if (_current is null)
         {
             throw new ArgumentNullException(nameof(_current));
         }
 
-        if (_currIndexList == null)
+        if (_currIndexList is null)
         {
             throw new ArgumentNullException(nameof(_currIndexList));
         }
 
-        var found = false;
+        _pinned = _pinned.Except(new[] { oldQuestion }).ToList();
 
-        while (!found)
-        {
-            var index = random.Next(0, _all.Count);
+        var newQuestion = _all.Except(_current).Except(_discarded).Except(new[] { oldQuestion }).Random(_random);
+        newQuestion.Title = oldQuestion.Title;
 
-            if (!_currIndexList.Contains(index))
-            {
-                var newQuestion = _all[index];
+        _current[_current.IndexOf(oldQuestion)] = newQuestion;
 
-                if (!_discarded.Contains(newQuestion))
-                {
-                    newQuestion.Title = oldQuestion.Title;
-                    newQuestion.IsPinned = oldQuestion.IsPinned;
-
-                    _current[_current.IndexOf(oldQuestion)] = newQuestion;
-
-                    if (_pinned.Contains(oldQuestion))
-                    {
-                        _pinned[_pinned.IndexOf(oldQuestion)] = newQuestion;
-                    }
-
-                    FilterList();
-
-                    found = true;
-                }
-            }
-        }
+        FilterList();
 
         _discarded.Add(oldQuestion);
     }
@@ -154,43 +142,45 @@ public partial class Index
         Randomize();
     }
 
-    protected void FilterList(string? searchVal = null)
+    protected void FilterList(string? search = null)
     {
-        if (_current == null)
+        if (_current is null)
         {
             throw new ArgumentNullException(nameof(_current));
         }
 
-        if (_pinned == null)
+        if (_pinned is null)
         {
             throw new ArgumentNullException(nameof(_pinned));
         }
 
-        var value = searchVal ?? _searchValue?.Trim();
+        search = search ?? SearchValue;
 
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrEmpty(search))
         {
             _currentFiltered = _current;
             _pinnedFiltered = _pinned;
         }
         else
         {
-            _currentFiltered = _current.Where(x => (x.Content != null && x.Content.ToLower().Contains(value.ToLower())) ||
-                                                   (x.Category != null && x.Category.ToLower().Contains(value.ToLower()))).ToList();
+            _currentFiltered = _current.Where(x => (x.Content is not null && x.Content.ToLower().Contains(search.ToLower())) ||
+                                                   (x.Category is not null && x.Category.ToLower().Contains(search.ToLower())) ||
+                                                   (x.Note is not null && x.Note.ToLower().Contains(search.ToLower()))).ToList();
 
-            _pinnedFiltered = _pinned.Where(x => (x.Content != null && x.Content.ToLower().Contains(value.ToLower())) ||
-                                                 (x.Category != null && x.Category.ToLower().Contains(value.ToLower()))).ToList();
+            _pinnedFiltered = _pinned.Where(x => (x.Content is not null && x.Content.ToLower().Contains(search.ToLower())) ||
+                                                 (x.Category is not null && x.Category.ToLower().Contains(search.ToLower())) ||
+                                                 (x.Note is not null && x.Note.ToLower().Contains(search.ToLower()))).ToList();
         }
     }
 
     protected void TogglePin(InterviewQuestion question)
     {
-        if (_current == null)
+        if (_current is null)
         {
             throw new ArgumentNullException(nameof(_current));
         }
 
-        if (_pinned == null)
+        if (_pinned is null)
         {
             throw new ArgumentNullException(nameof(_pinned));
         }
@@ -211,7 +201,7 @@ public partial class Index
 
     protected async Task OpenResetDialog(InterviewQuestion question)
     {
-        if (_dialogService == null)
+        if (_dialogService is null)
         {
             throw new ArgumentNullException(nameof(_dialogService));
         }
@@ -221,15 +211,50 @@ public partial class Index
 
         var result = await _dialogService.Show<ResetDialog>($"Reset {question.Title}", dialogParams).Result;
 
-        if (result?.Data != null && (bool)result.Data)
+        if (result?.Data is not null && (bool)result.Data)
         {
             RandomizeSingle(question);
         }
     }
 
+    protected void OpenReportDialog()
+    {
+        if (_current is null)
+        {
+            throw new ArgumentNullException(nameof(_current));
+        }
+        if (_snackbar is null)
+        {
+            throw new ArgumentNullException(nameof(_snackbar));
+        }
+
+        if (!_current.Any(x => x.Rating > 0))
+        {
+            _snackbar.Add("No rated questions!", Severity.Error);
+
+            return;
+        }
+
+        if (_dialogService is null)
+        {
+            throw new ArgumentNullException(nameof(_dialogService));
+        }
+
+        var parameters = new DialogParameters();
+        parameters.Add("Questions", _current);
+
+        var options = new DialogOptions()
+        {
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true
+        };
+
+        _dialogService.Show<ReportDialog>("Interview Report", parameters, options);
+    }
+
     protected async Task OpenResetAllDialog()
     {
-        if (_dialogService == null)
+        if (_dialogService is null)
         {
             throw new ArgumentNullException(nameof(_dialogService));
         }
@@ -239,7 +264,7 @@ public partial class Index
 
         var result = await _dialogService.Show<ResetDialog>("Reset All Questions", dialogParams).Result;
 
-        if (result?.Data != null && (bool)result.Data)
+        if (result?.Data is not null && (bool)result.Data)
         {
             Randomize();
         }
@@ -247,32 +272,32 @@ public partial class Index
 
     protected async void OpenNoteDialog(InterviewQuestion question)
     {
-        if (_dialogService == null)
+        if (_dialogService is null)
         {
             throw new ArgumentNullException(nameof(_dialogService));
         }
 
-        var dialogParams = new DialogParameters();
-        dialogParams.Add("Note", question.Note);
-        dialogParams.Add("Question", question.Content);
+        var parameters = new DialogParameters();
+        parameters.Add("Note", question.Note);
+        parameters.Add("Question", question.Content);
 
-        var dialogOptions = new DialogOptions()
+        var options = new DialogOptions()
         {
             MaxWidth = MaxWidth.Small,
             FullWidth = true,
             DisableBackdropClick = true
         };
 
-        var result = await _dialogService.Show<NoteDialog>($"{question.Title} notes", dialogParams, dialogOptions).Result;
+        var result = await _dialogService.Show<NoteDialog>($"{question.Title} notes", parameters, options).Result;
 
-        if (result?.Data != null)
+        if (result?.Data is not null)
         {
-            if (_current == null)
+            if (_current is null)
             {
                 throw new ArgumentNullException(nameof(_current));
             }
 
-            if (_pinned == null)
+            if (_pinned is null)
             {
                 throw new ArgumentNullException(nameof(_pinned));
             }

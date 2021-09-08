@@ -75,3 +75,7 @@
 .theme-tooltip {
     top: 12px !important;
 }
+
+.mud-tooltip-root.mud-tooltip-inline {
+    float: right;
+}
