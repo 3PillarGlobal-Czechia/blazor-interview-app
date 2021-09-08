@@ -34,7 +34,7 @@ From `\src\Server` use terminal to run this command:
 
 ## Contribution guide
 Contributions are very welcome!
-If You want to contribute, fork this repository, lookup an issue You'd like to be assigned to, write us there then and open a pull request.
+If You want to contribute, fork this repository, lookup an issue You'd like to be assigned to, write us there and open a pull request.
 
 Whenever You see something You could improve, just open the pull request directly and our administrators will look at it as soon as they can. 😊
 
