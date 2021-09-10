@@ -1,15 +1,14 @@
 ﻿
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using MudBlazor;
 
-namespace InterviewApp.Client.Shared;
+namespace InterviewApp.Client.Components.ExpansionList.ExpansionListItem.ExpansionListItemTitle;
 
-public partial class AppExpansionList
+public partial class AppExpansionListItemTitle
 {
     [Parameter]
-    public List<InterviewQuestion>? InterviewQuestions { get; set; }
+    public InterviewQuestion? Question { get; set; }
 
     [Parameter]
     public EventCallback<InterviewQuestion> OnTogglePin { get; set; }
@@ -21,17 +20,14 @@ public partial class AppExpansionList
     public EventCallback<InterviewQuestion> OnOpenResetDialog { get; set; }
 
     public async Task TogglePin(InterviewQuestion question)
-    {
-        await OnTogglePin.InvokeAsync(question);
-    }
+        => await OnTogglePin.InvokeAsync(question);
 
     public async Task OpenNoteDialog(InterviewQuestion question)
-    {
-        await OnOpenNoteDialog.InvokeAsync(question);
-    }
+        => await OnOpenNoteDialog.InvokeAsync(question);
 
     public async Task OpenResetDialog(InterviewQuestion question)
-    {
-        await OnOpenResetDialog.InvokeAsync(question);
-    }
+        => await OnOpenResetDialog.InvokeAsync(question);
+
+    public string GetNoteIcon(string? note)
+        => string.IsNullOrWhiteSpace(note) ? Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble;
 }

@@ -28,21 +28,17 @@ public partial class Index
     private IDialogService? _dialogService { get; set; }
 
     [Inject]
-    private IClipboardService? _clipboardService { get; set; }
-
-    [Inject]
     private ISnackbar? _snackbar { get; set; }
 
     private Random _random = new Random();
 
     private List<InterviewQuestion>? _all;
     private List<InterviewQuestion>? _current;
+    private List<InterviewQuestion>? _previous;
     private List<InterviewQuestion>? _currentFiltered;
     private List<InterviewQuestion>? _pinned;
     private List<InterviewQuestion>? _pinnedFiltered;
     private List<InterviewQuestion>? _discarded;
-    private List<int>? _currIndexList;
-    private List<int>? _prevIndexList;
 
     private string? _searchValue;
 
@@ -66,29 +62,24 @@ public partial class Index
         }
 
         _current = new List<InterviewQuestion>();
+        _previous = new List<InterviewQuestion>();
         _currentFiltered = new List<InterviewQuestion>();
         _pinned = new List<InterviewQuestion>();
         _pinnedFiltered = new List<InterviewQuestion>();
         _discarded = new List<InterviewQuestion>();
-        _currIndexList = new List<int>();
 
         for (int i = 0; i < 10; i++)
         {
-            var index = _random.Next(0, _all.Count);
+            var question = _all.Random(_random);
 
-            if (_currIndexList.Contains(index) || (_prevIndexList is not null && _prevIndexList.Contains(index)))
+            if (_current.Contains(question) || _previous.Contains(question))
             {
                 i--;
             }
             else
             {
-                var question = _all[index];
-                question.Title = $"Question {i + 1}";
-                question.IsPinned = false;
-                question.Rating = 0;
-                question.Note = null;
+                question.Reset(i);
 
-                _currIndexList.Add(index);
                 _current.Add(question);
             }
         }
@@ -118,11 +109,6 @@ public partial class Index
             throw new ArgumentNullException(nameof(_current));
         }
 
-        if (_currIndexList is null)
-        {
-            throw new ArgumentNullException(nameof(_currIndexList));
-        }
-
         _pinned = _pinned.Except(new[] { oldQuestion }).ToList();
 
         var newQuestion = _all.Except(_current).Except(_discarded).Except(new[] { oldQuestion }).Random(_random);
@@ -137,7 +123,7 @@ public partial class Index
 
     protected void Reset()
     {
-        _prevIndexList = _currIndexList;
+        _previous = _current;
 
         Randomize();
     }

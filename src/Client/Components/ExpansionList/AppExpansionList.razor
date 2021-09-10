@@ -1,0 +1,13 @@
+﻿@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem
+
+@if (InterviewQuestions?.Count > 0)
+{
+    <AppExpansionListHeader Title="@(Title + " (" + InterviewQuestions.Count + ")")" />
+
+    <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
+        @foreach (var question in InterviewQuestions)
+        {
+            <AppExpansionListItem Question="question" OnTogglePin="OnTogglePin" OnOpenNoteDialog="OnOpenNoteDialog" OnOpenResetDialog="OnOpenResetDialog" />
+        }
+    </MudExpansionPanels>
+}
