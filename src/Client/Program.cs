@@ -14,13 +14,7 @@ builder.Services.AddScoped<IClipboardService, ClipboardService>();
 
 builder.Services.AddMudServices(config =>
 {
-    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopRight;
-    config.SnackbarConfiguration.PreventDuplicates = true;
-    config.SnackbarConfiguration.NewestOnTop = true;
-    config.SnackbarConfiguration.ShowCloseIcon = true;
-    config.SnackbarConfiguration.VisibleStateDuration = 4000;
-    config.SnackbarConfiguration.HideTransitionDuration = 1000;
-    config.SnackbarConfiguration.ShowTransitionDuration = 300;
+    config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.TopLeft;
     config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
 });
 

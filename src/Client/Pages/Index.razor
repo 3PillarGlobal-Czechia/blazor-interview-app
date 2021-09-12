@@ -1,110 +1,30 @@
 ﻿@page "/"
 
+@using InterviewApp.Client.Components.ControlToolbar
+@using InterviewApp.Client.Components.ExpansionList
+@using InterviewApp.Client.Components.Header
 @using InterviewApp.Shared.Models
 
 <MudGrid>
     <MudItem xs="12" Class="pt-0">
-        <MudText Typo="Typo.h4" Align="Align.Center">Interview App</MudText>
+        <AppHeader Title="Interview App" />
     </MudItem>
-    <MudItem xs="12" Style="padding-bottom: 0">
-        <MudTextField @bind-Value="SearchValue" Immediate="true" Label="Search" Class="search" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentColor="Color.Default" AdornmentIcon="@Icons.Filled.Search" />
-        <MudToolBar Class="mx-0 px-0">
-            <MudButton OnClick="OpenReportDialog" Class="mr-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Assignment" Color="Color.Primary">Open Report</MudButton>
-            <MudSpacer />
-            <MudButton Class="ml-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Settings" Color="Color.Default">Settings</MudButton>
-            <MudButton OnClick="OpenResetAllDialog" Class="ml-2" Variant="Variant.Outlined" Size="Size.Small" StartIcon="@Icons.Material.Filled.Refresh" Color="Color.Error">Reset</MudButton>
-        </MudToolBar>
+    <MudItem xs="12" Class="pb-0">
+        <AppControlToolbar OnFilterList="(s) => FilterList(s)" 
+                           OnOpenReportDialog="OpenReportDialog"
+                           OnOpenResetAllDialog="OpenResetAllDialog" />
     </MudItem>
     <MudItem xs="12" Class="pt-0">
-        @if (_all != null && _currIndexList != null && _currentFiltered != null && _pinnedFiltered != null && _pinnedFiltered.Count > 0)
-        {
-            <p class="ml-1 expansion-panel-section">Pinned questions</p>
-            <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
-                @for (int i = 0; i < _pinnedFiltered.Count; i++)
-                {
-                    var count = i + 1;
-                    var question = _pinnedFiltered[i];
+        <AppExpansionList Title="Pinned questions"
+                          InterviewQuestions="_pinnedFiltered"
+                          OnTogglePin="TogglePin"
+                          OnOpenNoteDialog="OpenNoteDialog"
+                          OnOpenResetDialog="OpenResetDialog" />
 
-                    <MudExpansionPanel>
-                        <TitleContent>
-                            <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
-                            <MudTooltip Text="@(question.IsPinned ? "Unpin" : "Pin")" Placement="Placement.Bottom" Class="expansion-tooltip">
-                                <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" />
-                            </MudTooltip>
-                            <MudTooltip Text="Notes">
-                                <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
-                            </MudTooltip>
-                            <MudTooltip Text="Reset">
-                                <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
-                            </MudTooltip>
-                        </TitleContent>
-                        <ChildContent>
-                            <p class="question">@question.Content</p>
-                            <div class="question-detail">
-                                <div class="float-left">
-                                    <p><span class="tag">Category</span>@question.Category</p>
-                                </div>
-                                <div class="float-right">
-                                    <span class="tag">Difficulty (@question.Difficulty)</span>
-                                    @for (int i = 0; i < 5; i++)
-                                    {
-                                        <MudIcon Class="@(i < question.Difficulty ? "question-icon difficulty active" : "question-icon difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
-                                    }
-                                </div>
-                                <div class="float-right" style="margin-right: 20px">
-                                    <span class="tag">Rating (@question.Rating)</span>
-                                    <MudRating Size="Size.Medium" @bind-SelectedValue="question.Rating" />
-                                </div>
-                            </div>
-                        </ChildContent>
-                    </MudExpansionPanel>
-                }
-            </MudExpansionPanels>
-        }
-        @if (_all != null && _currIndexList != null && _currentFiltered != null)
-        {
-            <p class="ml-1 expansion-panel-section">All questions</p>
-            <MudExpansionPanels Class="mt-1 mb-6" MultiExpansion="true" Elevation="1">
-                @for (int i = 0; i < _currentFiltered.Count; i++)
-                {
-                    var count = i + 1;
-                    var question = _currentFiltered[i];
-
-                    <MudExpansionPanel>
-                        <TitleContent>
-                            <MudText Typo="Typo.subtitle1" Style="display: inline-block">@question.Title</MudText>
-                            <MudTooltip Text="@(question.IsPinned ? "Unpin" : "Pin")" Placement="Placement.Bottom" Class="expansion-tooltip">
-                                <MudToggleIconButton Toggled="question.IsPinned" ToggledChanged="() => TogglePin(question)" Class="expansion-header-icons pin-toggle" Size="Size.Medium" ToggledSize="Size.Medium" Icon="@Icons.Material.Outlined.PushPin" ToggledIcon="@Icons.Material.Filled.PushPin" Style="float: right" />
-                            </MudTooltip>
-                            <MudTooltip Text="Notes">
-                                <MudIconButton OnClick="(e) => OpenNoteDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@(string.IsNullOrWhiteSpace(question.Note) ? @Icons.Material.Outlined.ChatBubbleOutline : Icons.Material.Outlined.ChatBubble)" Style="float: right" />
-                            </MudTooltip>
-                            <MudTooltip Text="Reset">
-                                <MudIconButton OnClick="(e) => OpenResetDialog(question)" DisableRipple="true" Class="expansion-header-icons" Size="Size.Medium" Icon="@Icons.Material.Filled.Refresh" Style="float: right" />
-                            </MudTooltip>
-                        </TitleContent>
-                        <ChildContent>
-                            <p class="question">@question.Content</p>
-                            <div class="question-detail">
-                                <div class="float-left">
-                                    <p><span class="tag">Category</span>@question.Category</p>
-                                </div>
-                                <div class="float-right">
-                                    <span class="tag">Difficulty (@question.Difficulty)</span>
-                                    @for (int i = 0; i < 5; i++)
-                                    {
-                                        <MudIcon Class="@(i < question.Difficulty ? "question-icon difficulty active" : "question-icon difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
-                                    }
-                                </div>
-                                <div class="float-right" style="margin-right: 20px">
-                                    <span class="tag">Rating (@question.Rating)</span>
-                                    <MudRating Size="Size.Medium" @bind-SelectedValue="question.Rating" />
-                                </div>
-                            </div>
-                        </ChildContent>
-                    </MudExpansionPanel>
-                }
-            </MudExpansionPanels>
-        }
+        <AppExpansionList Title="All questions"
+                          InterviewQuestions="_currentFiltered"
+                          OnTogglePin="TogglePin"
+                          OnOpenNoteDialog="OpenNoteDialog"
+                          OnOpenResetDialog="OpenResetDialog" />
     </MudItem>
 </MudGrid>

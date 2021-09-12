@@ -1,0 +1,17 @@
+﻿@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem.ExpansionListItemContent
+@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem.ExpansionListItemTitle
+
+@if (Question is not null)
+{
+    <MudExpansionPanel>
+        <TitleContent>
+            <AppExpansionListItemTitle Question="@Question"
+                                       OnTogglePin="OnTogglePin"
+                                       OnOpenNoteDialog="OnOpenNoteDialog"
+                                       OnOpenResetDialog="OnOpenResetDialog" />
+        </TitleContent>
+        <ChildContent>
+            <AppExpansionListItemContent Question="@Question" />
+        </ChildContent>
+    </MudExpansionPanel>
+}

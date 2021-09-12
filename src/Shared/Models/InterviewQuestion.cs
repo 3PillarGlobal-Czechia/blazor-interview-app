@@ -26,6 +26,14 @@ namespace InterviewApp.Shared.Models
 
         public string? Note { get; set; }
 
+        public void Reset(int index)
+        {
+            Title = $"Question {index + 1}";
+            IsPinned = false;
+            Note = null;
+            Rating = 0;
+        }
+
         public override string ToString()
         {
             var text = new StringBuilder();

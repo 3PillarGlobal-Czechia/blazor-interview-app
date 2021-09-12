@@ -1,0 +1,26 @@
+﻿
+<MudTextField @bind-Value="SearchValue"
+              Immediate="true"
+              Class="search"
+              Label="Search"
+              Variant="Variant.Outlined"
+              Adornment="Adornment.End"
+              AdornmentColor="Color.Default"
+              AdornmentIcon="@Icons.Material.Filled.Search"
+              OnKeyUp="(e) => FilterList(SearchValue)" />
+
+<MudToolBar Class="mx-0 px-0">
+    <MudButton Class="mr-2"
+               Size="Size.Small"
+               Color="Color.Primary"
+               Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.Assignment"
+               OnClick="OpenReportDialog">Report</MudButton>
+
+    <MudButton Class="mr-2"
+               Size="Size.Small"
+               Color="Color.Error"
+               Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.Refresh"
+               OnClick="OpenResetAllDialog">Reset</MudButton>
+</MudToolBar>

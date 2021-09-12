@@ -1,0 +1,25 @@
+﻿@if (Question is not null)
+{
+    <MudText Class="d-inline-block" Typo="Typo.subtitle1">@Question.Title</MudText>
+    <MudTooltip Placement="Placement.Bottom" Text="@(Question.IsPinned ? "Unpin" : "Pin")">
+        <MudToggleIconButton Class="expand-icon pin-toggle"
+                             Size="Size.Medium"
+                             Icon="@Icons.Material.Outlined.PushPin"
+                             Toggled="Question.IsPinned"
+                             ToggledSize="Size.Medium"
+                             ToggledIcon="@Icons.Material.Filled.PushPin"
+                             ToggledChanged="() => TogglePin(Question)" />
+    </MudTooltip>
+    <MudTooltip Text="Notes">
+        <MudIconButton Class="expand-icon" 
+                       Size="Size.Medium" 
+                       Icon="@GetNoteIcon(Question.Note)" 
+                       OnClick="() => OpenNoteDialog(Question)" />
+    </MudTooltip>
+    <MudTooltip Text="Reset">
+        <MudIconButton Class="expand-icon" 
+                       Size="Size.Medium" 
+                       Icon="@Icons.Material.Filled.Refresh" 
+                       OnClick="() => OpenResetDialog(Question)" />
+    </MudTooltip>
+}

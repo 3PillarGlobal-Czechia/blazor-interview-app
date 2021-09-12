@@ -5,7 +5,7 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudMainContent Style="padding-top: 40px">
+    <MudMainContent Class="pt-8">
         <MudContainer MaxWidth="MaxWidth.Medium">
             <MudContainer Fixed="true">
                 @Body
@@ -14,8 +14,11 @@
     </MudMainContent>
 </MudLayout>
 
-<MudContainer Style="position: fixed; top: 10px; right: 0" Class="d-flex justify-end">
-    <MudTooltip Text="Switch theme" Placement="Placement.Start" Class="theme-tooltip">
-        <MudIconButton OnClick="() => SwitchTheme()" Icon="@Icons.Material.Filled.BrightnessMedium" />
+<MudContainer Class="d-flex justify-end" Style="position: fixed; top: 10px; right: 0">
+    <MudTooltip Class="absolute-tooltip" Text="Settings" Placement="Placement.Left">
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" />
+    </MudTooltip>
+    <MudTooltip Class="absolute-tooltip" Text="Switch theme" Placement="Placement.Left">
+        <MudIconButton OnClick="() => SwitchTheme()" Icon="@Icons.Material.Filled.Brightness6" />
     </MudTooltip>
 </MudContainer>

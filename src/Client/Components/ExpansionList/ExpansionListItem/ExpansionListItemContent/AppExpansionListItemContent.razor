@@ -1,0 +1,24 @@
+﻿@if (Question is not null)
+{
+    <p class="question">@Question.Content</p>
+    <div class="question-detail">
+        <MudGrid>
+            <MudItem xs="12" sm="4">
+                <p><span class="tag">Category</span>@Question.Category</p>
+            </MudItem>
+            <MudItem xs="12" sm="8">
+                <div class="float-right">
+                    <span class="tag">Difficulty</span>
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <MudIcon Class="@(i < Question.Difficulty ? "question-icon difficulty active" : "question-icon difficulty")" Icon="@Icons.Material.Filled.Whatshot" />
+                    }
+                </div>
+                <div class="float-right mr-6">
+                    <span class="tag">Rating (@Question.Rating)</span>
+                    <MudRating @bind-SelectedValue="Question.Rating" Size="Size.Medium" />
+                </div>
+            </MudItem>
+        </MudGrid>
+    </div>
+}

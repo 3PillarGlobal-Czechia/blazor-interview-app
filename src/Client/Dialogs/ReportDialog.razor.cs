@@ -11,7 +11,7 @@ namespace InterviewApp.Client.Dialogs;
 
 public partial class ReportDialog
 {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
 
     [Parameter] public List<InterviewQuestion>? Questions { get; set; }
 
@@ -65,12 +65,12 @@ public partial class ReportDialog
 
         await ClipboardService!.WriteTextAsync(ReportText ?? string.Empty);
 
-        Snackbar.Add("Report text copied!", Severity.Info);
+        Snackbar.Add("Report text copied!", Severity.Success);
     }
 
     protected async Task Download()
         => await JSRuntime!.SaveAsAsync("report.txt", Encoding.UTF8.GetBytes(ReportText!));
 
     protected void Cancel() 
-        => MudDialog.Cancel();
+        => MudDialog?.Cancel();
 }
