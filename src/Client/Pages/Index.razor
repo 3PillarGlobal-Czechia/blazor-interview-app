@@ -3,28 +3,32 @@
 @using InterviewApp.Client.Components.ControlToolbar
 @using InterviewApp.Client.Components.ExpansionList
 @using InterviewApp.Client.Components.Header
+@using InterviewApp.Client.Enums
 @using InterviewApp.Shared.Models
 
-<MudGrid>
-    <MudItem xs="12" Class="pt-0">
-        <AppHeader Title="Interview App" />
-    </MudItem>
-    <MudItem xs="12" Class="pb-0">
-        <AppControlToolbar OnFilterList="(s) => FilterList(s)" 
-                           OnOpenReportDialog="OpenReportDialog"
-                           OnOpenResetAllDialog="OpenResetAllDialog" />
-    </MudItem>
-    <MudItem xs="12" Class="pt-0">
-        <AppExpansionList Title="Pinned questions"
-                          InterviewQuestions="_pinnedFiltered"
-                          OnTogglePin="TogglePin"
-                          OnOpenNoteDialog="OpenNoteDialog"
-                          OnOpenResetDialog="OpenResetDialog" />
+@if (_interviewService is not null && _interviewService.IsInitialized())
+{
+    <MudGrid>
+        <MudItem xs="12" Class="pt-0">
+            <AppHeader Title="Interview App" />
+        </MudItem>
+        <MudItem xs="12" Class="pb-0">
+            <AppControlToolbar OnFilterList="(s) => FilterList(s)"
+                               OnOpenReportDialog="OpenReportDialog"
+                               OnOpenResetAllDialog="() => OpenResetDialog()" />
+        </MudItem>
+        <MudItem xs="12" Class="pt-0">
+            <AppExpansionList Title="Pinned questions"
+                              InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].Where(x => x.IsPinned ?? false).ToList()"
+                              OnTogglePin="TogglePin"
+                              OnOpenNoteDialog="OpenNoteDialog"
+                              OnOpenResetDialog="OpenResetDialog" />
 
-        <AppExpansionList Title="All questions"
-                          InterviewQuestions="_currentFiltered"
-                          OnTogglePin="TogglePin"
-                          OnOpenNoteDialog="OpenNoteDialog"
-                          OnOpenResetDialog="OpenResetDialog" />
-    </MudItem>
-</MudGrid>
+            <AppExpansionList Title="All questions"
+                              InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].ToList()"
+                              OnTogglePin="TogglePin"
+                              OnOpenNoteDialog="OpenNoteDialog"
+                              OnOpenResetDialog="OpenResetDialog" />
+        </MudItem>
+    </MudGrid>
+}

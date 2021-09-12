@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace InterviewApp.Shared.Models
 {
@@ -12,7 +8,7 @@ namespace InterviewApp.Shared.Models
         public string? Title { get; set; }
 
         [Required]
-        public int Difficulty { get; set; }
+        public int? Difficulty { get; set; }
 
         [Required]
         public string? Category { get; set; }
@@ -22,16 +18,51 @@ namespace InterviewApp.Shared.Models
 
         public int Rating { get; set; }
 
-        public bool IsPinned { get; set; }
+        public bool? IsPinned { get; set; }
 
         public string? Note { get; set; }
 
-        public void Reset(int index)
+        public bool Contains(string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return true;
+            }
+
+            if (string.IsNullOrWhiteSpace(Content))
+                Content = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(Category))
+                Category = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(Note))
+                Note = string.Empty;
+
+            value = value.Trim().ToLower();
+
+            return Content.ToLower().Contains(value) || 
+                   Category.ToLower().Contains(value) ||
+                   Note.ToLower().Contains(value);
+        }
+
+        public InterviewQuestion Reset(int index)
         {
             Title = $"Question {index + 1}";
             IsPinned = false;
             Note = null;
             Rating = 0;
+
+            return this;
+        }
+
+        public InterviewQuestion Reset(string title)
+        {
+            Title = title;
+            IsPinned = false;
+            Note = null;
+            Rating = 0;
+
+            return this;
         }
 
         public override string ToString()

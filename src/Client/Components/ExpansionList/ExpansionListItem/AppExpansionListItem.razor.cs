@@ -1,7 +1,6 @@
 ﻿
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace InterviewApp.Client.Components.ExpansionList.ExpansionListItem;
 

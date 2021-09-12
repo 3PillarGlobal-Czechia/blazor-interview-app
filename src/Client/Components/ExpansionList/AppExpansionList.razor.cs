@@ -10,7 +10,7 @@ public partial class AppExpansionList
     public string? Title { get; set; }
 
     [Parameter]
-    public List<InterviewQuestion>? InterviewQuestions { get; set; }
+    public IList<InterviewQuestion>? InterviewQuestions { get; set; }
 
     [Parameter]
     public EventCallback<InterviewQuestion> OnTogglePin { get; set; }
