@@ -17,4 +17,10 @@ public partial class AppExpansionListItem
 
     [Parameter]
     public EventCallback<InterviewQuestion> OnOpenResetDialog { get; set; }
+
+    [Parameter]
+    public EventCallback OnRatingChanged { get; set; }
+
+    public async Task RatingChanged()
+        => await OnRatingChanged.InvokeAsync();
 }

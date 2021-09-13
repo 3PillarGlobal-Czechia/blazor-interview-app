@@ -11,6 +11,9 @@ namespace InterviewApp.Client.Pages;
 
 public partial class Index
 {
+    [CascadingParameter]
+    public EventCallback OnSwitchTheme { get; set; }
+
     public string? SearchValue
     {
         get => _searchValue;
@@ -22,6 +25,8 @@ public partial class Index
         }
     }
 
+    private string? _searchValue;
+
     [Inject]
     private IInterviewService? _interviewService { get; set; }
 
@@ -30,8 +35,6 @@ public partial class Index
 
     [Inject]
     private ISnackbar? _snackbar { get; set; }
-
-    private string? _searchValue;
 
     protected override async Task OnInitializedAsync()
     {
@@ -178,5 +181,40 @@ public partial class Index
 
             FilterList();
         }
+    }
+
+    protected void RatingChanged()
+    {
+        StateHasChanged();
+    }
+
+    protected async Task SwitchTheme()
+        => await OnSwitchTheme.InvokeAsync();
+
+    protected IEnumerable<InterviewQuestion> Search(string value)
+    {
+        if (_interviewService is null)
+        {
+            throw new InvalidOperationException(nameof(_interviewService));
+        }
+
+        FilterList(value);
+
+        return _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED];
+    }
+
+    protected IEnumerable<InterviewQuestion> Search(InterviewQuestion value)
+    {
+        if (_interviewService is null)
+        {
+            throw new InvalidOperationException(nameof(_interviewService));
+        }
+
+        _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED] =
+            _interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(x => x.Equals(value));
+
+        StateHasChanged();
+
+        return _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED];
     }
 }

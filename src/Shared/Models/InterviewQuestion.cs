@@ -29,6 +29,9 @@ namespace InterviewApp.Shared.Models
                 return true;
             }
 
+            if (string.IsNullOrWhiteSpace(Title))
+                Title = string.Empty;
+
             if (string.IsNullOrWhiteSpace(Content))
                 Content = string.Empty;
 
@@ -40,7 +43,8 @@ namespace InterviewApp.Shared.Models
 
             value = value.Trim().ToLower();
 
-            return Content.ToLower().Contains(value) || 
+            return Title.ToLower().Contains(value) ||
+                   Content.ToLower().Contains(value) || 
                    Category.ToLower().Contains(value) ||
                    Note.ToLower().Contains(value);
         }

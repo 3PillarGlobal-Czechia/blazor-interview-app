@@ -1,4 +1,4 @@
-﻿
+﻿@using InterviewApp.Client.Components.Header
 @inherits LayoutComponentBase
 
 <MudThemeProvider Theme="currentTheme" />
@@ -6,20 +6,9 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudMainContent Class="pt-8">
-        <MudContainer MaxWidth="MaxWidth.Medium">
-            <MudContainer Fixed="true">
-                @Body
-            </MudContainer>
-        </MudContainer>
+    <MudMainContent Class="mt-8 pt-8">
+        <CascadingValue Value="OnSwitchTheme">
+            @Body
+        </CascadingValue>
     </MudMainContent>
 </MudLayout>
-
-<MudContainer Class="d-flex justify-end" Style="position: fixed; top: 10px; right: 0">
-    <MudTooltip Class="absolute-tooltip" Text="Settings" Placement="Placement.Left">
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" />
-    </MudTooltip>
-    <MudTooltip Class="absolute-tooltip" Text="Switch theme" Placement="Placement.Left">
-        <MudIconButton OnClick="() => SwitchTheme()" Icon="@Icons.Material.Filled.Brightness6" />
-    </MudTooltip>
-</MudContainer>

@@ -81,6 +81,40 @@
     float: right;
 }
 
+.expand-rating-icon {
+    float: right;
+    color: #ccc;
+}
+
+.mud-appbar .mud-select .mud-input-control .mud-input .mud-input-adornment .mud-icon-root.mud-icon-default {
+    fill: rgba(255,255,255, 0.70);
+}
+
+.mud-appbar .mud-select .mud-input-control .mud-input .mud-input-root.mud-input-slot {
+    color: rgba(255,255,255, 0.70);
+}
+
+.mud-appbar .mud-select .mud-input-control .mud-input .mud-input-outlined-border {
+    border: none;
+    background: rgba(255,255,255,0.2);
+}
+
+.mud-appbar .mud-input-control .mud-input-label.mud-input-label-animated {
+    background: transparent;
+}
+
+.mud-appbar .mud-button-root.mud-icon-button {
+    color: rgba(255,255,255,0.7);
+}
+
+.mud-appbar .flex-grow-1 {
+    flex-grow: 0.5 !important;
+}
+
+.mud-appbar .mud-select.mud-autocomplete {
+    padding-bottom: 2px;
+}
+
 @media (max-width: 385px) {
     .mud-expand-panel-content .question-detail .float-right {
         float: left;

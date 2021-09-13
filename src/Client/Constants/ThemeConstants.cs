@@ -9,7 +9,7 @@ public static class ThemeConstants
     {
         Palette = new Palette
         {
-            Primary = Colors.Blue.Default,
+            Primary = "#0B2F35",
             Background = "#F9F9F9"
         }
     };
@@ -18,11 +18,11 @@ public static class ThemeConstants
     {
         Palette = new Palette
         {
-            Primary = Colors.Blue.Default,
+            Primary = "#12505B",
             Black = "#27272f",
-            Background = "#373740",
+            Background = "#0B2F35",
             BackgroundGrey = "#27272f",
-            Surface = "#40404C",
+            Surface = "#12505B",
             DrawerBackground = "#27272f",
             DrawerText = "rgba(255,255,255, 0.50)",
             DrawerIcon = "rgba(255,255,255, 0.50)",

@@ -1,0 +1,44 @@
+﻿@using InterviewApp.Shared.Models
+
+<MudAppBar Color="Color.Primary">
+    <MudIcon Icon="@Icons.Material.Filled.PersonSearch" />
+    <MudText Class="ml-2" 
+             Typo="Typo.h6">Interview App</MudText>
+
+    <MudSpacer />
+    <MudAutocomplete Class="text-white" 
+                     T="InterviewQuestion"
+                     Immediate="true" 
+                     Placeholder="Search"
+                     SearchFunc="Search"
+                     ToStringFunc="e => e.Title"
+                     TextChanged="SearchText"
+                     MinCharacters="1"
+                     CoerceText="false"
+                     CoerceValue="false"
+                     FullWidth="true"
+                     InputMode="InputMode.search"
+                     MaxItems="5"                     
+                     ResetValueOnEmptyText="true"
+                     Clearable="true" 
+                     Dense="true" 
+                     DisableUnderLine="true"
+                     Variant="Variant.Outlined" 
+                     AdornmentIcon="@Icons.Material.Filled.Search">
+
+                     <ItemTemplate Context="e">
+                         <MudText Typo="Typo.body2">@e.Title (@e.Category)</MudText>
+                         <MudText Typo="Typo.caption" Align="Align.Justify">@e.Content.Substring(0, 100)...</MudText>
+                     </ItemTemplate>
+
+    </MudAutocomplete>
+    <MudSpacer />
+
+    <MudIconButton OnClick="() => OpenReport()" Icon="@Icons.Material.Filled.AssistantPhoto" />
+    <MudIconButton OnClick="() => ResetQuestions()" Icon="@Icons.Material.Filled.Refresh" />
+    <MudMenu Icon="@Icons.Material.Filled.Settings" Dense="true" Direction="Direction.Right" OffsetY="true">
+        <MudMenuItem OnClick="() => SwitchTheme()">Switch theme</MudMenuItem>
+        <MudMenuItem OnClick="() => OpenSettings()">Settings</MudMenuItem>
+    </MudMenu>
+
+</MudAppBar>

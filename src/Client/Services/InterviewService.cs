@@ -111,15 +111,10 @@ public class InterviewService : IInterviewService
 
     public void FilterQuestions(string? search)
     {
-        if (string.IsNullOrWhiteSpace(search))
-        {
-            InterviewQuestionLists[InterviewQuestionListType.FILTERED] = InterviewQuestionLists[InterviewQuestionListType.CURRENT];
-        }
-        else
-        {
-            InterviewQuestionLists[InterviewQuestionListType.FILTERED] = 
-                InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(x => x.Contains(search)).ToList();
-        }
+        InterviewQuestionLists[InterviewQuestionListType.FILTERED] = 
+            string.IsNullOrWhiteSpace(search)
+                ? InterviewQuestionLists[InterviewQuestionListType.CURRENT]
+                : InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(x => x.Contains(search)).AsEnumerable();
     }
 
     public void UpdateQuestion(InterviewQuestion original, InterviewQuestion updated, InterviewQuestionListType listType = InterviewQuestionListType.CURRENT)

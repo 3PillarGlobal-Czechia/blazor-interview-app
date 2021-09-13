@@ -9,10 +9,10 @@ public partial class AppControlToolbar
     public EventCallback<string> OnFilterList { get; set; }
 
     [Parameter]
-    public EventCallback<object> OnOpenResetAllDialog { get; set; }
+    public EventCallback OnOpenResetAllDialog { get; set; }
 
     [Parameter]
-    public EventCallback<object> OnOpenReportDialog { get; set; }
+    public EventCallback OnOpenReportDialog { get; set; }
 
     public string? SearchValue { get; set; }
 

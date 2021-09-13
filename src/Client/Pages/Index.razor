@@ -6,29 +6,39 @@
 @using InterviewApp.Client.Enums
 @using InterviewApp.Shared.Models
 
-@if (_interviewService is not null && _interviewService.IsInitialized())
-{
-    <MudGrid>
-        <MudItem xs="12" Class="pt-0">
-            <AppHeader Title="Interview App" />
-        </MudItem>
-        <MudItem xs="12" Class="pb-0">
-            <AppControlToolbar OnFilterList="(s) => FilterList(s)"
-                               OnOpenReportDialog="OpenReportDialog"
-                               OnOpenResetAllDialog="() => OpenResetDialog()" />
-        </MudItem>
-        <MudItem xs="12" Class="pt-0">
-            <AppExpansionList Title="Pinned questions"
-                              InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].Where(x => x.IsPinned ?? false).ToList()"
-                              OnTogglePin="TogglePin"
-                              OnOpenNoteDialog="OpenNoteDialog"
-                              OnOpenResetDialog="OpenResetDialog" />
+<AppMainHeader Title="Inteview App"
+               OnSearch="s => Search(s)"
+               OnSearchText="s => Search(s)"
+               OnSearchValue="v => Search(v)"
+               OnSwitchTheme="SwitchTheme"
+               OnOpenReport="OpenReportDialog"
+               OnResetQuestions="() => OpenResetDialog()" />
 
-            <AppExpansionList Title="All questions"
-                              InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].ToList()"
-                              OnTogglePin="TogglePin"
-                              OnOpenNoteDialog="OpenNoteDialog"
-                              OnOpenResetDialog="OpenResetDialog" />
-        </MudItem>
-    </MudGrid>
-}
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudContainer Fixed="true">
+        <MudGrid>
+            <MudItem xs="12" Class="pt-12">
+                @if (_interviewService is not null && _interviewService.IsInitialized())
+                {
+                    <AppExpansionList Title="Pinned questions"
+                                      InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].Where(x => x.IsPinned ?? false).ToList()"
+                                      OnTogglePin="TogglePin"
+                                      OnOpenNoteDialog="OpenNoteDialog"
+                                      OnOpenResetDialog="OpenResetDialog"
+                                      OnRatingChanged="RatingChanged" />
+
+                    <AppExpansionList Title="All questions"
+                                      InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].ToList()"
+                                      OnTogglePin="TogglePin"
+                                      OnOpenNoteDialog="OpenNoteDialog"
+                                      OnOpenResetDialog="OpenResetDialog"
+                                      OnRatingChanged="RatingChanged" />
+                }
+                else
+                {
+                    <AppExpansionList IsSkeleton="true" />
+                }
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</MudContainer>
