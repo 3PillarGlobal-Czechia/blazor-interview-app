@@ -115,6 +115,11 @@
     padding-bottom: 2px;
 }
 
+.remove-primary-color .mud-list .mud-list-item.mud-selected-item {
+    color: #fff;
+    background-color: rgba(11,47,53,0.7);
+}
+
 @media (max-width: 385px) {
     .mud-expand-panel-content .question-detail .float-right {
         float: left;

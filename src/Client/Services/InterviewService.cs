@@ -114,7 +114,7 @@ public class InterviewService : IInterviewService
         InterviewQuestionLists[InterviewQuestionListType.FILTERED] = 
             string.IsNullOrWhiteSpace(search)
                 ? InterviewQuestionLists[InterviewQuestionListType.CURRENT]
-                : InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(x => x.Contains(search)).AsEnumerable();
+                : InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(x => x.Contains(search));
     }
 
     public void UpdateQuestion(InterviewQuestion original, InterviewQuestion updated, InterviewQuestionListType listType = InterviewQuestionListType.CURRENT)
