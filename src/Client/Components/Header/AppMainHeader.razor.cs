@@ -31,10 +31,10 @@ public partial class AppMainHeader
     public EventCallback OnOpenReport { get; set; }
 
     public void SearchText(string text)
-        => OnSearchText!.Invoke(text);
+        => OnSearchText?.Invoke(text);
 
     public void SearchValue(InterviewQuestion value)
-        => OnSearchValue!.Invoke(value);
+        => OnSearchValue?.Invoke(value);
 
     public async Task SwitchTheme()
         => await OnSwitchTheme.InvokeAsync();
