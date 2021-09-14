@@ -52,7 +52,7 @@ public partial class AppMainHeader
     {
         if (OnSearch is null)
         {
-            throw new InvalidOperationException(nameof(OnSearch));
+            throw new InvalidOperationException($"{nameof(OnSearch)} cannot be null.");
         }
 
         await Task.Delay(1);

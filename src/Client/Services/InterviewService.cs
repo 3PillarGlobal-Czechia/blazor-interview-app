@@ -45,7 +45,7 @@ public class InterviewService : IInterviewService
     {
         if (!InterviewQuestionLists.ContainsKey(InterviewQuestionListType.ALL))
         {
-            throw new InvalidOperationException(nameof(InterviewQuestionListType.ALL));
+            throw new InvalidOperationException($"{nameof(InterviewQuestionLists)} cannot be null for {nameof(InterviewQuestionListType.ALL)}");
         }
 
         var current = new List<InterviewQuestion>();
@@ -82,7 +82,7 @@ public class InterviewService : IInterviewService
     {
         if (!InterviewQuestionLists.ContainsKey(InterviewQuestionListType.CURRENT))
         {
-            throw new InvalidOperationException(nameof(InterviewQuestionLists));
+            throw new InvalidOperationException($"{nameof(InterviewQuestionLists)} cannot be null for {nameof(InterviewQuestionListType.CURRENT)}");
         }
 
         if (question is null)
@@ -94,7 +94,7 @@ public class InterviewService : IInterviewService
 
         if (string.IsNullOrWhiteSpace(question.Title))
         {
-            throw new InvalidOperationException(nameof(question.Title));
+            throw new InvalidOperationException($"{nameof(question.Title)} cannot be null or empty.");
         }
 
         var currentList = InterviewQuestionLists[InterviewQuestionListType.CURRENT].ToList();

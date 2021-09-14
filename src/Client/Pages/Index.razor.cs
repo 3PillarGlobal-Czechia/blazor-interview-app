@@ -195,7 +195,7 @@ public partial class Index
     {
         if (_interviewService is null)
         {
-            throw new InvalidOperationException(nameof(_interviewService));
+            throw new InvalidOperationException($"{nameof(_interviewService)} cannot be null.");
         }
 
         FilterList(value);
@@ -207,7 +207,7 @@ public partial class Index
     {
         if (_interviewService is null)
         {
-            throw new InvalidOperationException(nameof(_interviewService));
+            throw new InvalidOperationException($"{nameof(_interviewService)} cannot be null.");
         }
 
         _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED] =

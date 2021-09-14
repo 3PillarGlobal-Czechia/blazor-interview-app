@@ -28,8 +28,11 @@
                      AdornmentIcon="@Icons.Material.Filled.Search">
 
                      <ItemTemplate Context="e">
-                         <MudText Typo="Typo.body2">@e.Title (@e.Category)</MudText>
-                         <MudText Typo="Typo.caption" Align="Align.Justify">@e.Content.Substring(0, 100)...</MudText>
+                         @if (e is not null) 
+                         {
+                            <MudText Typo="Typo.body2">@e.Title (@e.Category)</MudText>
+                            <MudText Typo="Typo.caption" Align="Align.Justify">@e.Content?.Substring(0, 100)...</MudText>
+                         }
                      </ItemTemplate>
 
     </MudAutocomplete>

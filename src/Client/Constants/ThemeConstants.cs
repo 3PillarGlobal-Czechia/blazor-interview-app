@@ -38,7 +38,8 @@ public static class ThemeConstants
             TableLines = "rgba(255,255,255, 0.12)",
             LinesDefault = "rgba(255,255,255, 0.12)",
             LinesInputs = "rgba(255,255,255, 0.3)",
-            TextDisabled = "rgba(255,255,255, 0.2)"
+            TextDisabled = "rgba(255,255,255, 0.2)",
+            GrayDarker = "#0B2F35"
         }
     };
 }

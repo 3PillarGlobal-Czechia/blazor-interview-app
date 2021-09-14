@@ -16,7 +16,7 @@ public partial class AppExpansionListItemContent
     {
         if (Question is null)
         {
-            throw new InvalidOperationException(nameof(Question));
+            throw new InvalidOperationException($"{nameof(Question)} cannot be null.");
         }
 
         Question.Rating = rating;

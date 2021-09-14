@@ -61,7 +61,7 @@ public partial class ReportDialog
     {
         if (Snackbar is null)
         {
-            throw new InvalidOperationException(nameof(Snackbar));
+            throw new InvalidOperationException($"{nameof(Snackbar)} cannot be null.");
         }
 
         await ClipboardService!.WriteTextAsync(ReportText ?? string.Empty);
