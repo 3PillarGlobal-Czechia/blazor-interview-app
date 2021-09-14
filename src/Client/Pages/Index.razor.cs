@@ -211,7 +211,7 @@ public partial class Index
         }
 
         _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED] =
-            _interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(x => x.Equals(value));
+            _interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(q => q.Equals(value));
 
         StateHasChanged();
 

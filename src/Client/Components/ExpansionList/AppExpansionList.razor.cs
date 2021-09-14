@@ -37,6 +37,6 @@ public partial class AppExpansionList
             throw new InvalidOperationException(nameof(InterviewQuestions));
         }
 
-        return InterviewQuestions.Where(x => x.Contains(value));
+        return InterviewQuestions.Where(q => q.Contains(value));
     }
 }
