@@ -6,7 +6,7 @@
 {
     <AppExpansionListHeader Title="@(Title + " (" + InterviewQuestions.Count + ")")" />
 
-    <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
+    <MudExpansionPanels Class="mt-1 mb-6" MultiExpansion="true" Elevation="1">
         @foreach (var question in InterviewQuestions)
         {
             <AppExpansionListItem Question="question" 
@@ -21,7 +21,7 @@ else if (IsSkeleton)
 {
     <MudSkeleton Width="100px" Height="14px" />
 
-    <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
+    <MudExpansionPanels Class="mt-1 mb-6" MultiExpansion="true" Elevation="1">
         @for (int i = 0; i < InterviewConstants.MaxQuestionCount; i++)
         {
             <AppExpansionListItem />

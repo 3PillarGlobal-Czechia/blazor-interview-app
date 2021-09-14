@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Shared\InterviewApp.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\ControlToolbar\" />
-  </ItemGroup>
-
 </Project>

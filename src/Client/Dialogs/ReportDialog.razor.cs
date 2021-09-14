@@ -17,9 +17,6 @@ public partial class ReportDialog
     [Parameter] public List<InterviewQuestion>? Questions { get; set; }
 
     [Inject]
-    public IJSRuntime? JSRuntime { get; set; }
-
-    [Inject]
     public IClipboardService? ClipboardService { get; set; }
 
     [Inject]
@@ -68,9 +65,6 @@ public partial class ReportDialog
 
         Snackbar.Add(InterviewConstants.ReportSnackbarReportCopiedText, Severity.Success);
     }
-
-    protected async Task Download()
-        => await JSRuntime!.SaveAsAsync(InterviewConstants.ReportDownloadFileName, Encoding.UTF8.GetBytes(ReportText!));
 
     protected void Cancel() 
         => MudDialog?.Cancel();

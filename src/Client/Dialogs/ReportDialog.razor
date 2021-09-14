@@ -1,11 +1,12 @@
 ﻿
 <MudDialog Class="report-dialog">
     <DialogContent>
-        <MudTextFieldString @bind-Value="ReportText" ReadOnly="true" Immediate="true" Lines="30" Label="Report" Class="report" Variant="Variant.Outlined" />
+        <MudContainer Style="max-height: 432px; overflow-y: scroll; padding: 0 10px 0 16px">
+            <MudTextFieldString @bind-Value="ReportText" ReadOnly="true" Immediate="true" Lines="20" Label="Report" Class="report" Variant="Variant.Outlined" />
+        </MudContainer>
     </DialogContent>
     <DialogActions>
         <MudButton Color="Color.Default" OnClick="Cancel">Close</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Download">Download</MudButton>
         <MudButton Color="Color.Primary" OnClick="CopyToClipboard">Copy to clipboard</MudButton>
     </DialogActions>
 </MudDialog>

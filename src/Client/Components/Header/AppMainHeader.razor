@@ -1,12 +1,12 @@
 ﻿@using InterviewApp.Shared.Models
 
 <MudAppBar Color="Color.Primary">
-    <MudIcon Icon="@Icons.Material.Filled.PersonSearch" />
-    <MudText Class="ml-2" 
-             Typo="Typo.h6">Interview App</MudText>
+    <MudIcon Class="d-none d-sm-flex" Icon="@Icons.Material.Filled.PersonSearch" />
+    <MudText Class="ml-2 d-none d-sm-flex" 
+             Typo="Typo.h6">@Title</MudText>
 
     <MudSpacer />
-    <MudAutocomplete Class="text-white" 
+    <MudAutocomplete Class="search-input" 
                      PopoverClass="remove-primary-color"
                      T="InterviewQuestion"
                      Immediate="true" 
@@ -38,11 +38,10 @@
     </MudAutocomplete>
     <MudSpacer />
 
-    <MudIconButton OnClick="() => OpenReport()" Icon="@Icons.Material.Filled.AssistantPhoto" />
-    <MudIconButton OnClick="() => ResetQuestions()" Icon="@Icons.Material.Filled.Refresh" />
-    <MudMenu Icon="@Icons.Material.Filled.Settings" Dense="true" Direction="Direction.Right" OffsetY="true">
-        <MudMenuItem OnClick="() => SwitchTheme()">Switch theme</MudMenuItem>
+    <MudIconButton Class="appbar-btn-icon pr-2 pl-5" OnClick="() => OpenReport()" Icon="@Icons.Material.Filled.AssistantPhoto" />
+    <MudMenu Class="appbar-btn-icon setting-menu" Icon="@Icons.Material.Filled.Settings" Dense="true" Direction="Direction.Right" OffsetY="true">
+        <MudMenuItem OnClick="() => ResetQuestions()">Reset</MudMenuItem>
         <MudMenuItem OnClick="() => OpenSettings()">Settings</MudMenuItem>
+        <MudMenuItem OnClick="() => SwitchTheme()">Switch theme</MudMenuItem>
     </MudMenu>
-
 </MudAppBar>
