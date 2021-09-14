@@ -1,6 +1,5 @@
 ﻿using InterviewApp.Server.Data;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 

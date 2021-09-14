@@ -8,4 +8,19 @@ public partial class AppExpansionListItemContent
 {
     [Parameter]
     public InterviewQuestion? Question { get; set; }
+
+    [Parameter]
+    public EventCallback OnRatingChanged { get; set; }
+
+    public async Task RatingChanged(int rating)
+    {
+        if (Question is null)
+        {
+            throw new InvalidOperationException($"{nameof(Question)} cannot be null.");
+        }
+
+        Question.Rating = rating;
+
+        await OnRatingChanged.InvokeAsync();
+    }
 }

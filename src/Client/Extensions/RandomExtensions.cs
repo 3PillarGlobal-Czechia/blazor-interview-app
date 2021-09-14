@@ -3,15 +3,25 @@ namespace InterviewApp.Client.Extensions;
 
 public static class RandomExtensions
 {
-    public static T Random<T>(this IEnumerable<T> enumerable, Random random)
+    private static Random _random = new Random();
+
+    public static T Random<T>(this IEnumerable<T> enumerable)
     {
         if (enumerable is null)
         {
             throw new ArgumentNullException(nameof(enumerable));
         }
 
-        var list = enumerable as IList<T> ?? enumerable.ToList();
+        return enumerable.OrderBy(_ => _random.Next()).First();
+    }
 
-        return list.Count == 0 ? default! : list[random.Next(0, list.Count)];
+    public static IEnumerable<T> Random<T>(this IEnumerable<T> enumerable, int count)
+    {
+        if (enumerable is null)
+        {
+            throw new ArgumentNullException(nameof(enumerable));
+        }
+
+        return enumerable.OrderBy(_ => _random.Next()).Take(count);
     }
 }

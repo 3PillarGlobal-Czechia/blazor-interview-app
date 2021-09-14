@@ -1,4 +1,5 @@
-﻿@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem.ExpansionListItemContent
+﻿
+@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem.ExpansionListItemContent
 @using InterviewApp.Client.Components.ExpansionList.ExpansionListItem.ExpansionListItemTitle
 
 @if (Question is not null)
@@ -11,7 +12,19 @@
                                        OnOpenResetDialog="OnOpenResetDialog" />
         </TitleContent>
         <ChildContent>
-            <AppExpansionListItemContent Question="@Question" />
+            <AppExpansionListItemContent Question="@Question"
+                                         OnRatingChanged="RatingChanged" />
         </ChildContent>
+    </MudExpansionPanel>
+}
+else
+{
+    <MudExpansionPanel Disabled="true">
+        <TitleContent>
+            <MudSkeleton Style="display: inline-block" SkeletonType="SkeletonType.Rectangle" Width="125px" Height="24px" />
+            <MudSkeleton Style="display: inline-block; float: right;" Class="mr-3" SkeletonType="SkeletonType.Circle" Width="24px" Height="24px" />
+            <MudSkeleton Style="display: inline-block; float: right;" Class="mr-3" SkeletonType="SkeletonType.Circle" Width="24px" Height="24px" />
+            <MudSkeleton Style="display: inline-block; float: right;" Class="mr-3" SkeletonType="SkeletonType.Circle" Width="24px" Height="24px" />
+        </TitleContent>
     </MudExpansionPanel>
 }

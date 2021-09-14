@@ -1,4 +1,5 @@
 ﻿
+using InterviewApp.Client.Constants;
 using InterviewApp.Client.Extensions;
 using InterviewApp.Client.Services.Interface;
 using InterviewApp.Shared.Models;
@@ -43,7 +44,7 @@ public partial class ReportDialog
             if (ratedQuestions.Any())
             {
                 var averageRating = Math.Round((double)ratedQuestions.Sum(x => x.Rating) / ratedQuestions.Count(), 2);
-                var averageDifficulty = Math.Round((double)ratedQuestions.Sum(x => x.Difficulty) / ratedQuestions.Count(), 2);
+                var averageDifficulty = Math.Round((double)ratedQuestions.Sum(x => x.Difficulty ?? 0) / ratedQuestions.Count(), 2);
 
                 titleText.AppendLine($"Based on rated questions ({ratedQuestions.Count()} / 10)");
                 titleText.AppendLine($"Average rating: {averageRating} / 5");
@@ -60,16 +61,16 @@ public partial class ReportDialog
     {
         if (Snackbar is null)
         {
-            throw new InvalidOperationException(nameof(Snackbar));
+            throw new InvalidOperationException($"{nameof(Snackbar)} cannot be null.");
         }
 
         await ClipboardService!.WriteTextAsync(ReportText ?? string.Empty);
 
-        Snackbar.Add("Report text copied!", Severity.Success);
+        Snackbar.Add(InterviewConstants.ReportSnackbarReportCopiedText, Severity.Success);
     }
 
     protected async Task Download()
-        => await JSRuntime!.SaveAsAsync("report.txt", Encoding.UTF8.GetBytes(ReportText!));
+        => await JSRuntime!.SaveAsAsync(InterviewConstants.ReportDownloadFileName, Encoding.UTF8.GetBytes(ReportText!));
 
     protected void Cancel() 
         => MudDialog?.Cancel();

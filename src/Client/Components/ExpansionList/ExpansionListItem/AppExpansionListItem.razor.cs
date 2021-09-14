@@ -1,7 +1,6 @@
 ﻿
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using MudBlazor;
 
 namespace InterviewApp.Client.Components.ExpansionList.ExpansionListItem;
 
@@ -18,4 +17,10 @@ public partial class AppExpansionListItem
 
     [Parameter]
     public EventCallback<InterviewQuestion> OnOpenResetDialog { get; set; }
+
+    [Parameter]
+    public EventCallback OnRatingChanged { get; set; }
+
+    public async Task RatingChanged()
+        => await OnRatingChanged.InvokeAsync();
 }

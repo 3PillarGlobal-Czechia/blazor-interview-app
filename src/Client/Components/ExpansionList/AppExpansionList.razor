@@ -1,4 +1,6 @@
-﻿@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem
+﻿
+@using InterviewApp.Client.Components.ExpansionList.ExpansionListItem
+@using InterviewApp.Client.Constants
 
 @if (InterviewQuestions?.Count > 0)
 {
@@ -7,7 +9,22 @@
     <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
         @foreach (var question in InterviewQuestions)
         {
-            <AppExpansionListItem Question="question" OnTogglePin="OnTogglePin" OnOpenNoteDialog="OnOpenNoteDialog" OnOpenResetDialog="OnOpenResetDialog" />
+            <AppExpansionListItem Question="question" 
+                                  OnTogglePin="OnTogglePin" 
+                                  OnOpenNoteDialog="OnOpenNoteDialog" 
+                                  OnOpenResetDialog="OnOpenResetDialog" 
+                                  OnRatingChanged="RatingChanged" />
+        }
+    </MudExpansionPanels>
+}
+else if (IsSkeleton)
+{
+    <MudSkeleton Width="100px" Height="14px" />
+
+    <MudExpansionPanels Class="mt-1 mb-12" MultiExpansion="true" Elevation="1">
+        @for (int i = 0; i < InterviewConstants.MaxQuestionCount; i++)
+        {
+            <AppExpansionListItem />
         }
     </MudExpansionPanels>
 }

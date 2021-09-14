@@ -1,25 +1,36 @@
-﻿@if (Question is not null)
+﻿
+@if (Question is not null)
 {
     <MudText Class="d-inline-block" Typo="Typo.subtitle1">@Question.Title</MudText>
-    <MudTooltip Placement="Placement.Bottom" Text="@(Question.IsPinned ? "Unpin" : "Pin")">
+
+    <MudTooltip Placement="Placement.Bottom" Text="@(Question.IsPinned ?? false ? "Unpin" : "Pin")">
         <MudToggleIconButton Class="expand-icon pin-toggle"
                              Size="Size.Medium"
                              Icon="@Icons.Material.Outlined.PushPin"
-                             Toggled="Question.IsPinned"
+                             Toggled="Question.IsPinned ?? false"
                              ToggledSize="Size.Medium"
                              ToggledIcon="@Icons.Material.Filled.PushPin"
                              ToggledChanged="() => TogglePin(Question)" />
     </MudTooltip>
+
     <MudTooltip Text="Notes">
-        <MudIconButton Class="expand-icon" 
-                       Size="Size.Medium" 
-                       Icon="@GetNoteIcon(Question.Note)" 
+        <MudIconButton Class="expand-icon"
+                       Size="Size.Medium"
+                       Icon="@GetNoteIcon(Question.Note)"
                        OnClick="() => OpenNoteDialog(Question)" />
     </MudTooltip>
+
     <MudTooltip Text="Reset">
-        <MudIconButton Class="expand-icon" 
-                       Size="Size.Medium" 
-                       Icon="@Icons.Material.Filled.Refresh" 
+        <MudIconButton Class="expand-icon"
+                       Size="Size.Medium"
+                       Icon="@Icons.Material.Filled.Refresh"
                        OnClick="() => OpenResetDialog(Question)" />
     </MudTooltip>
+
+    if (Question.Rating > 0)
+    {
+        <MudIcon Class="expand-rating-icon mx-3 my-0" 
+                 Icon="@Icons.Material.Filled.Star" 
+                 Color="Color.Surface" />
+    }
 }
