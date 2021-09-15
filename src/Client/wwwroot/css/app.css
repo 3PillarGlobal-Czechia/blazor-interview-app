@@ -171,19 +171,9 @@
     padding: 0 !important;
 }
 
-.report-fab {
-    position: fixed !important;
-    right: 32px;
-    bottom: 32px;
-}
-
-    .report-fab.mud-fab-size-small {
-        width: 60px;
-        height: 60px;
-    }
-
 .search-input {
-    right: 14px;
+    left: 14px;
+    max-width: 900px !important;
 }
 
 @media (max-width: 600px) {
@@ -197,7 +187,7 @@
     }
 
     .search-input {
-        right: initial;
+        left: initial;
         margin-right: 160px !important;
     }
 }
