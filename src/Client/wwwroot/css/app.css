@@ -50,6 +50,15 @@
         opacity: 0.5 !important;
     }
 
+.appbar-btn-icon.report-btn {
+    transition: opacity ease-in-out .175s !important;
+}
+
+    .appbar-btn-icon.report-btn:hover {
+        background-color: transparent !important;
+        opacity: 0.5 !important;
+    }
+
 .appbar-btn-icon .mud-icon-button {
     padding: 2px 0 2px 8px !important;
     transition: opacity ease-in-out .175s !important;
