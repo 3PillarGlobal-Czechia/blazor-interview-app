@@ -1,12 +1,11 @@
 ﻿@page "/"
 
-@using InterviewApp.Client.Components.ControlToolbar
 @using InterviewApp.Client.Components.ExpansionList
 @using InterviewApp.Client.Components.Header
 @using InterviewApp.Client.Enums
 @using InterviewApp.Shared.Models
 
-<AppMainHeader Title="Inteview App"
+<AppMainHeader Title="Interview"
                OnSearch="s => Search(s)"
                OnSearchText="s => Search(s)"
                OnSearchValue="v => Search(v)"
@@ -14,10 +13,10 @@
                OnOpenReport="OpenReportDialog"
                OnResetQuestions="() => OpenResetDialog()" />
 
-<MudContainer MaxWidth="MaxWidth.Medium">
+<MudContainer Class="pb-12 px-1" MaxWidth="MaxWidth.Medium">
     <MudContainer Fixed="true">
         <MudGrid>
-            <MudItem xs="12" Class="pt-12">
+            <MudItem xs="12" Class="pt-8">
                 @if (_interviewService is not null && _interviewService.IsInitialized())
                 {
                     <AppExpansionList Title="Pinned questions"

@@ -50,6 +50,25 @@
         opacity: 0.5 !important;
     }
 
+.appbar-btn-icon.report-btn {
+    transition: opacity ease-in-out .175s !important;
+}
+
+    .appbar-btn-icon.report-btn:hover {
+        background-color: transparent !important;
+        opacity: 0.5 !important;
+    }
+
+.appbar-btn-icon .mud-icon-button {
+    padding: 2px 0 2px 8px !important;
+    transition: opacity ease-in-out .175s !important;
+}
+
+    .appbar-btn-icon .mud-icon-button:hover {
+        background-color: transparent !important;
+        opacity: 0.5 !important;
+    }
+
 .question-icon {
     margin-top: 2px;
     font-size: 22px;
@@ -82,8 +101,11 @@
 }
 
 .expand-rating-icon {
+    position: relative;
     float: right;
-    color: #ccc;
+    top: 4px;
+    color: var(--mud-palette-text-primary);
+    opacity: 0.25;
 }
 
 .mud-appbar .mud-select .mud-input-control .mud-input .mud-input-adornment .mud-icon-root.mud-icon-default {
@@ -120,9 +142,122 @@
     background-color: rgba(11,47,53,0.7);
 }
 
-@media (max-width: 385px) {
+.rating .mud-icon-size-medium {
+    font-size: 27px;
+}
+
+.mud-expand-panel-header {
+    padding: 12px 16px !important;
+}
+
+.mud-expand-panel-content {
+    padding: 0 16px 10px !important;
+}
+
+.setting-menu .mud-icon-button {
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+.note-dialog .mud-dialog-title,
+.reset-dialog .mud-dialog-title,
+.report-dialog .mud-dialog-title {
+    padding: 16px 16px 8px 16px !important;
+}
+
+.report-dialog .mud-dialog-content,
+.reset-dialog .mud-dialog-content,
+.note-dialog .mud-dialog-content {
+    padding: 0 !important;
+}
+
+.report-fab {
+    position: fixed !important;
+    right: 32px;
+    bottom: 32px;
+}
+
+    .report-fab.mud-fab-size-small {
+        width: 60px;
+        height: 60px;
+    }
+
+.search-input {
+    right: 14px;
+}
+
+@media (max-width: 600px) {
     .mud-expand-panel-content .question-detail .float-right {
         float: left;
+    }
+
+    .mud-input-control.mud-input-input-control.report .mud-input-slot {
+        font-size: 15px;
+        line-height: 18px;
+    }
+
+    .search-input {
+        right: initial;
+        margin-right: 160px !important;
+    }
+}
+
+@media (max-width: 385px) {
+    .mud-typography.mud-typography-subtitle1 {
+        font-size: 15px !important;
+    }
+
+    .mud-typography.mud-typography-body1 {
+        font-size: 13px !important;
+    }
+
+    .mud-icon-size-medium {
+        font-size: 18px !important;
+    }
+
+    .rating .mud-icon-size-medium {
+        font-size: 21px !important;
+    }
+
+    .mud-rating .mud-icon-size-medium {
+        font-size: 24px !important;
+    }
+
+    p.question,
+    .question-detail p {
+        font-size: 12px;
+    }
+
+    .report-fab {
+        position: fixed !important;
+        right: 16px;
+        bottom: 16px;
+    }
+
+        .report-fab.mud-fab-size-small {
+            width: 40px;
+            height: 40px;
+        }
+
+    .mud-input-control.mud-input-input-control.report .mud-input-slot {
+        font-size: 11px;
+        line-height: 14px;
+    }
+
+    .mud-icon-button.expand-icon {
+        padding: 4px 5px !important;
+    }
+
+    .reset-dialog {
+        margin: 20px;
+    }
+
+    .mud-expand-panel-header {
+        padding: 12px 14px !important;
+    }
+
+    .mud-expand-panel-content {
+        padding: 0 14px 10px !important;
     }
 
     .mud-expand-panel-content .mud-grid-item-sm-4 {

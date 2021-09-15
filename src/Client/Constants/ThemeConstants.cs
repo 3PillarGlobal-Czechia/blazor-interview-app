@@ -20,9 +20,9 @@ public static class ThemeConstants
         {
             Primary = "#12505B",
             Black = "#27272f",
-            Background = "#0B2F35",
+            Background = "#061C1F",
             BackgroundGrey = "#27272f",
-            Surface = "#12505B",
+            Surface = "#0B2F35",
             DrawerBackground = "#27272f",
             DrawerText = "rgba(255,255,255, 0.50)",
             DrawerIcon = "rgba(255,255,255, 0.50)",
@@ -39,7 +39,7 @@ public static class ThemeConstants
             LinesDefault = "rgba(255,255,255, 0.12)",
             LinesInputs = "rgba(255,255,255, 0.3)",
             TextDisabled = "rgba(255,255,255, 0.2)",
-            GrayDarker = "#0B2F35"
+            GrayDarker = "#061C1F"
         }
     };
 }

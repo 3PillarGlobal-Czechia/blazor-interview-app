@@ -1,9 +1,11 @@
 ﻿
-<MudDialog>
+<MudDialog Class="reset-dialog">
     <DialogContent>
-        This action cannot be reverted.
-        <br />
-        @Content
+        <MudContainer Style="max-height: 350px; overflow-y: scroll; padding: 0 10px 0 16px">
+            This action cannot be reverted.
+            <br />
+            @Content
+        </MudContainer>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>

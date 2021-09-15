@@ -1,8 +1,10 @@
 ﻿
 <MudDialog Class="note-dialog">
     <DialogContent>
-        <MudText Typo="Typo.body1" Class="mb-6">@Question</MudText>
-        <MudTextFieldString @bind-Value="Note" Immediate="true" Lines="10" Label="Notes" Class="note" Variant="Variant.Outlined" />
+        <MudContainer Style="max-height: 350px; overflow-y: scroll; padding: 0 10px 0 16px">
+            <MudText Typo="Typo.body1" Class="mb-3">@Question</MudText>
+            <MudTextFieldString @bind-Value="Note" Immediate="true" Lines="10" Label="Notes" Class="note" Variant="Variant.Outlined" />
+        </MudContainer>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
