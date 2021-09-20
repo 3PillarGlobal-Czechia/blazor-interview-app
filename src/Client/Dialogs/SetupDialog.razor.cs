@@ -33,11 +33,17 @@ public partial class SetupDialog
         {
             Categories.Remove(category);
             SelectedCategories.Add(category);
+
+            return;
         }
-        else if (SelectedCategories.Contains(category))
+
+
+        if (SelectedCategories.Contains(category))
         {
             SelectedCategories.Remove(category);
             Categories.Add(category);
+
+            return;
         }
     }
 }
