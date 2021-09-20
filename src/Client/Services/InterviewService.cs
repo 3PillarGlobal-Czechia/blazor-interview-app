@@ -15,7 +15,7 @@ public class InterviewService : IInterviewService
 
     public IDictionary<QuestionListType, IEnumerable<InterviewQuestion>> QuestionLists { get; set; }
 
-    public IList<string?> SelectedCategories { get; set; }
+    public ICollection<string?> SelectedCategories { get; set; }
 
     private readonly HttpClient _http;
 
@@ -47,7 +47,7 @@ public class InterviewService : IInterviewService
         }
     }
 
-    public IList<string?> GetCategories()
+    public ICollection<string?> GetCategories()
     {
         if (QuestionLists is null || !QuestionLists.ContainsKey(QuestionListType.All))
         {
@@ -57,7 +57,7 @@ public class InterviewService : IInterviewService
         return QuestionLists[QuestionListType.All].Select(x => x.Category).Distinct().ToList();
     }
 
-    public void PrepareInterviewQuestions(IList<string?> categories)
+    public void PrepareInterviewQuestions(ICollection<string?> categories)
     {
         if (!QuestionLists.ContainsKey(QuestionListType.All))
         {
@@ -96,7 +96,7 @@ public class InterviewService : IInterviewService
         QuestionLists.Add(QuestionListType.Discarded, discarded.AsEnumerable());
     }
 
-    public void ResetQuestions(IList<string?> categories)
+    public void ResetQuestions(ICollection<string?> categories)
     {
         PrepareInterviewQuestions(categories);
     }
