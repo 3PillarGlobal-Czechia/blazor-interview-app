@@ -5,6 +5,9 @@ public static class InterviewConstants
 {
     public static readonly int MaxQuestionCount = 10;
 
+    public static readonly string SetupDialogCategoriesParameter = "Categories";
+    public static readonly string SetupDialogTitle = "Interview Setup";
+
     public static readonly string ReportDialogQuestionsParameter = "Questions";
     public static readonly string ReportDialogTitle = "Interview Report";
     public static readonly string ReportSnackbarNoRatingText = "No rated questions.";

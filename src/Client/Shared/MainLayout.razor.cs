@@ -1,5 +1,6 @@
 ﻿
 using InterviewApp.Client.Constants;
+using InterviewApp.Client.Services.Interface;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -7,9 +8,9 @@ namespace InterviewApp.Client.Shared;
 
 public partial class MainLayout
 {
-    EventCallback OnSwitchTheme => EventCallback.Factory.Create(this, SwitchTheme);
+    private EventCallback onSwitchTheme => EventCallback.Factory.Create(this, SwitchTheme);
 
-    MudTheme? currentTheme;
+    private MudTheme? currentTheme;
 
     protected override void OnInitialized()
     {

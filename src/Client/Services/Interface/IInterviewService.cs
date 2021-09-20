@@ -6,17 +6,23 @@ namespace InterviewApp.Client.Services.Interface;
 
 interface IInterviewService
 {
-    Dictionary<InterviewQuestionListType, IEnumerable<InterviewQuestion>> InterviewQuestionLists { get; set; }
+    IDictionary<QuestionListType, IEnumerable<InterviewQuestion>> QuestionLists { get; set; }
+
+    IList<string?> SelectedCategories { get; set; }
 
     Task Initialize();
 
     bool IsInitialized();
 
-    void PrepareInterviewQuestions();
+    void PrepareInterviewQuestions(IList<string?> categories);
 
-    void ResetQuestions(InterviewQuestion? question = null);
+    void ResetQuestion(InterviewQuestion? question);
+
+    void ResetQuestions(IList<string?> categories);
 
     void FilterQuestions(string? search);
 
-    void UpdateQuestion(InterviewQuestion original, InterviewQuestion updated, InterviewQuestionListType listType = InterviewQuestionListType.CURRENT);
+    void UpdateQuestion(InterviewQuestion original, InterviewQuestion updated, QuestionListType listType = QuestionListType.Current);
+
+    IList<string?> GetCategories();
 }
