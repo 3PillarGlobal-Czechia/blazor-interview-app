@@ -37,7 +37,6 @@ public partial class SetupDialog
             return;
         }
 
-
         if (SelectedCategories.Contains(category))
         {
             SelectedCategories.Remove(category);
