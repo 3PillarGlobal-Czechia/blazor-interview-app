@@ -3,93 +3,114 @@ using InterviewApp.Client.Enums;
 using InterviewApp.Client.Extensions;
 using InterviewApp.Client.Services.Interface;
 using InterviewApp.Shared.Models;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using System.Net.Http.Json;
 
 namespace InterviewApp.Client.Services;
 
 public class InterviewService : IInterviewService
 {
-    public Dictionary<InterviewQuestionListType, IEnumerable<InterviewQuestion>> InterviewQuestionLists { get; set; }
+    private ISnackbar? _snackbar { get; set; }
+
+    public IDictionary<QuestionListType, IEnumerable<InterviewQuestion>> QuestionLists { get; set; }
+
+    public ICollection<string?> SelectedCategories { get; set; }
 
     private readonly HttpClient _http;
 
-    public InterviewService(HttpClient http)
+    public InterviewService(HttpClient http, ISnackbar snaccbar)
     {
         _http = http;
+        _snackbar = snaccbar;
 
-        InterviewQuestionLists = new Dictionary<InterviewQuestionListType, IEnumerable<InterviewQuestion>>();
+        QuestionLists = new Dictionary<QuestionListType, IEnumerable<InterviewQuestion>>();
+        SelectedCategories = new List<string?>();
     }
 
     public bool IsInitialized()
     {
-        return InterviewQuestionLists is not null &&
-               InterviewQuestionLists.ContainsKey(InterviewQuestionListType.ALL) &&
-               InterviewQuestionLists.ContainsKey(InterviewQuestionListType.CURRENT);
+        return QuestionLists is not null &&
+               QuestionLists.ContainsKey(QuestionListType.All) &&
+               QuestionLists.ContainsKey(QuestionListType.Current);
     }
 
     public async Task Initialize()
     {
-        if (!InterviewQuestionLists.ContainsKey(InterviewQuestionListType.ALL))
+        if (!QuestionLists.ContainsKey(QuestionListType.All))
         {
             var dataset = await _http.GetFromJsonAsync<List<InterviewQuestion>>("Interview");
             if (dataset is not null)
             {
-                InterviewQuestionLists.Add(InterviewQuestionListType.ALL, dataset);
-
-                PrepareInterviewQuestions();
+                QuestionLists.Add(QuestionListType.All, dataset);
             }
         }
     }
 
-    public void PrepareInterviewQuestions()
+    public ICollection<string?> GetCategories()
     {
-        if (!InterviewQuestionLists.ContainsKey(InterviewQuestionListType.ALL))
+        if (QuestionLists is null || !QuestionLists.ContainsKey(QuestionListType.All))
         {
-            throw new InvalidOperationException($"{nameof(InterviewQuestionLists)} cannot be null for {nameof(InterviewQuestionListType.ALL)}");
+            throw new InvalidOperationException($"{nameof(QuestionLists)} is not initialized");
+        }
+
+        return QuestionLists[QuestionListType.All].Select(x => x.Category).Distinct().ToList();
+    }
+
+    public void PrepareInterviewQuestions(ICollection<string?> categories)
+    {
+        if (!QuestionLists.ContainsKey(QuestionListType.All))
+        {
+            throw new InvalidOperationException($"{nameof(QuestionLists)} cannot be null for {nameof(QuestionListType.All)}");
         }
 
         var current = new List<InterviewQuestion>();
         var previous = new List<InterviewQuestion>();
         var discarded = new List<InterviewQuestion>();
 
-        if (InterviewQuestionLists.ContainsKey(InterviewQuestionListType.CURRENT))
-            current = InterviewQuestionLists[InterviewQuestionListType.CURRENT].ToList();
+        if (QuestionLists.ContainsKey(QuestionListType.Current))
+            current = QuestionLists[QuestionListType.Current].ToList();
 
-        if (InterviewQuestionLists.ContainsKey(InterviewQuestionListType.PREVIOUS))
-            previous = InterviewQuestionLists[InterviewQuestionListType.PREVIOUS].ToList();
+        if (QuestionLists.ContainsKey(QuestionListType.Previous))
+            previous = QuestionLists[QuestionListType.Previous].ToList();
 
-        if (InterviewQuestionLists.ContainsKey(InterviewQuestionListType.DISCARDED))
-            discarded = InterviewQuestionLists[InterviewQuestionListType.DISCARDED].ToList();
+        if (QuestionLists.ContainsKey(QuestionListType.Discarded))
+            discarded = QuestionLists[QuestionListType.Discarded].ToList();
 
-        current = InterviewQuestionLists[InterviewQuestionListType.ALL].Except(current).Except(previous).Except(discarded).Random(10).ToList();
+        SelectedCategories = categories;
+
+        current = QuestionLists[QuestionListType.All].Where(q => SelectedCategories.Contains(q.Category)).Except(current).Except(previous).Except(discarded).Random(10).ToList();
         for (int i = 0; i < current.Count(); i++)
         {
             current[i].Reset(i);
         }
 
-        InterviewQuestionLists.Remove(InterviewQuestionListType.CURRENT);
-        InterviewQuestionLists.Remove(InterviewQuestionListType.PREVIOUS);
-        InterviewQuestionLists.Remove(InterviewQuestionListType.FILTERED);
-        InterviewQuestionLists.Remove(InterviewQuestionListType.DISCARDED);
+        QuestionLists.Remove(QuestionListType.Current);
+        QuestionLists.Remove(QuestionListType.Previous);
+        QuestionLists.Remove(QuestionListType.Filtered);
+        QuestionLists.Remove(QuestionListType.Discarded);
 
-        InterviewQuestionLists.Add(InterviewQuestionListType.CURRENT, current.AsEnumerable());
-        InterviewQuestionLists.Add(InterviewQuestionListType.PREVIOUS, previous.AsEnumerable());
-        InterviewQuestionLists.Add(InterviewQuestionListType.FILTERED, current.AsEnumerable());
-        InterviewQuestionLists.Add(InterviewQuestionListType.DISCARDED, discarded.AsEnumerable());
+        QuestionLists.Add(QuestionListType.Current, current.AsEnumerable());
+        QuestionLists.Add(QuestionListType.Previous, previous.AsEnumerable());
+        QuestionLists.Add(QuestionListType.Filtered, current.AsEnumerable());
+        QuestionLists.Add(QuestionListType.Discarded, discarded.AsEnumerable());
     }
 
-    public void ResetQuestions(InterviewQuestion? question = null)
+    public void ResetQuestions(ICollection<string?> categories)
     {
-        if (!InterviewQuestionLists.ContainsKey(InterviewQuestionListType.CURRENT))
+        PrepareInterviewQuestions(categories);
+    }
+
+    public void ResetQuestion(InterviewQuestion? question)
+    {
+        if (!QuestionLists.ContainsKey(QuestionListType.Current))
         {
-            throw new InvalidOperationException($"{nameof(InterviewQuestionLists)} cannot be null for {nameof(InterviewQuestionListType.CURRENT)}");
+            throw new InvalidOperationException($"{nameof(QuestionLists)} cannot be null for {nameof(QuestionListType.Current)}");
         }
 
         if (question is null)
         {
-            PrepareInterviewQuestions();
-
-            return;
+            throw new ArgumentNullException(nameof(question));
         }
 
         if (string.IsNullOrWhiteSpace(question.Title))
@@ -97,27 +118,44 @@ public class InterviewService : IInterviewService
             throw new InvalidOperationException($"{nameof(question.Title)} cannot be null or empty.");
         }
 
-        var currentList = InterviewQuestionLists[InterviewQuestionListType.CURRENT].ToList();
-        currentList[currentList.IndexOf(question)] =
-            InterviewQuestionLists[InterviewQuestionListType.ALL]
-                .Except(InterviewQuestionLists[InterviewQuestionListType.CURRENT])
-                .Except(InterviewQuestionLists[InterviewQuestionListType.PREVIOUS])
-                .Except(InterviewQuestionLists[InterviewQuestionListType.DISCARDED])
-                .Random()
-                .Reset(question.Title);
+        var currentList = QuestionLists[QuestionListType.Current].ToList();
+        var resetList = 
+            QuestionLists[QuestionListType.All]
+                .Where(q => SelectedCategories.Contains(q.Category))
+                .Except(QuestionLists[QuestionListType.Current])
+                .Except(QuestionLists[QuestionListType.Previous])
+                .Except(QuestionLists[QuestionListType.Discarded]);
 
-        InterviewQuestionLists[InterviewQuestionListType.CURRENT] = currentList;
+        if (resetList.Any())
+        {
+            currentList[currentList.IndexOf(question)] = resetList.Random().Reset(question.Title);
+
+            var discardedList = QuestionLists[QuestionListType.Discarded].ToList();
+            discardedList.Add(question);
+
+            QuestionLists[QuestionListType.Current] = currentList;
+            QuestionLists[QuestionListType.Discarded] = discardedList;
+        }
+        else
+        {
+            if (_snackbar is null)
+            {
+                throw new InvalidOperationException($"{nameof(_snackbar)} is not initialized.");
+            }
+
+            _snackbar.Add("No more available questions.", Severity.Error);
+        }
     }
 
     public void FilterQuestions(string? search)
     {
-        InterviewQuestionLists[InterviewQuestionListType.FILTERED] = 
+        QuestionLists[QuestionListType.Filtered] = 
             string.IsNullOrWhiteSpace(search)
-                ? InterviewQuestionLists[InterviewQuestionListType.CURRENT]
-                : InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(q => q.Contains(search));
+                ? QuestionLists[QuestionListType.Current]
+                : QuestionLists[QuestionListType.Current].Where(q => q.Contains(search));
     }
 
-    public void UpdateQuestion(InterviewQuestion original, InterviewQuestion updated, InterviewQuestionListType listType = InterviewQuestionListType.CURRENT)
+    public void UpdateQuestion(InterviewQuestion original, InterviewQuestion updated, QuestionListType listType = QuestionListType.Current)
     {
         if (original is null)
         {
@@ -140,10 +178,10 @@ public class InterviewService : IInterviewService
             Rating = updated.Rating == 0 ? original.Rating : updated.Rating
         };
 
-        var list = InterviewQuestionLists[listType].ToList();
+        var list = QuestionLists[listType].ToList();
 
         list[list.IndexOf(original)] = updated;
 
-        InterviewQuestionLists[listType] = list.AsEnumerable();
+        QuestionLists[listType] = list.AsEnumerable();
     }
 }

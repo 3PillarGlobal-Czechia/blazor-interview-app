@@ -1,0 +1,48 @@
+﻿
+@using InterviewApp.Client.Constants
+
+<MudDialog Class="setup-dialog">
+    <DialogContent>
+        <MudContainer Style="max-height: 350px; overflow-y: scroll; padding: 0 10px 0 16px">
+            <MudText Typo="Typo.body2">Select categories from which you wish to generate interview questions.</MudText>
+            @if (Categories is not null && SelectedCategories is not null)
+            {
+                <MudField Class="mt-6" Label="Available" Variant="Variant.Outlined" InnerPadding="true">
+                    @if (Categories.Count > 0)
+                    { 
+                        @foreach (string? category in Categories)
+                        {
+                            @if (!string.IsNullOrWhiteSpace(category))
+                            {
+                                <MudChip Size="Size.Medium" Color="Color.Default" Icon="@Icons.Material.Filled.AddCircle" OnClick="() => ToggleCategory(category)">@category</MudChip>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body2">Nothing available..</MudText>
+                    }
+                </MudField>
+                <MudField Class="mt-6" Label="Selected" Variant="Variant.Outlined" InnerPadding="true">
+                    @if (SelectedCategories.Count > 0)
+                    {
+                        @foreach (string? category in SelectedCategories)
+                        {
+                            @if (!string.IsNullOrWhiteSpace(category))
+                            {
+                                <MudChip Size="Size.Medium" Color="Color.Primary" Icon="@Icons.Material.Filled.RemoveCircle" OnClick="() => ToggleCategory(category)">@category</MudChip>
+                            }
+                        }
+                    } 
+                    else
+                    {
+                        <MudText Typo="Typo.body2">Nothing selected..</MudText>
+                    }
+                </MudField>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Class="mr-1 mb-1 mt-4" Color="Color.Primary" Variant="Variant.Filled" Disabled="@(SelectedCategories?.Count < 1)" OnClick="Submit">Start Interview</MudButton>
+    </DialogActions>
+</MudDialog>

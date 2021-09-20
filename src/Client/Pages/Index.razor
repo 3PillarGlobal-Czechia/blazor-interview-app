@@ -20,14 +20,14 @@
                 @if (_interviewService is not null && _interviewService.IsInitialized())
                 {
                     <AppExpansionList Title="Pinned questions"
-                                      InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].Where(x => x.IsPinned ?? false).ToList()"
+                                      InterviewQuestions="_interviewService.QuestionLists[QuestionListType.Filtered].Where(x => x.IsPinned ?? false).ToList()"
                                       OnTogglePin="TogglePin"
                                       OnOpenNoteDialog="OpenNoteDialog"
                                       OnOpenResetDialog="OpenResetDialog"
                                       OnRatingChanged="RatingChanged" />
 
                     <AppExpansionList Title="All questions"
-                                      InterviewQuestions="_interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED].ToList()"
+                                      InterviewQuestions="_interviewService.QuestionLists[QuestionListType.Filtered].ToList()"
                                       OnTogglePin="TogglePin"
                                       OnOpenNoteDialog="OpenNoteDialog"
                                       OnOpenResetDialog="OpenResetDialog"

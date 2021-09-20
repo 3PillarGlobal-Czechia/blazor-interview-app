@@ -43,7 +43,31 @@ public partial class Index
             throw new ArgumentNullException(nameof(_interviewService));
         }
 
+        if (_dialogService is null)
+        {
+            throw new ArgumentNullException(nameof(_dialogService));
+        }
+
         await _interviewService.Initialize();
+
+        var parameters = new DialogParameters();
+        parameters.Add(InterviewConstants.SetupDialogCategoriesParameter, _interviewService.GetCategories());
+
+        var options = new DialogOptions
+        {
+            MaxWidth = MaxWidth.Small,
+            FullWidth = true,
+            CloseButton = false,
+            DisableBackdropClick = true
+        };
+
+        var result = await _dialogService.Show<SetupDialog>(InterviewConstants.SetupDialogTitle, parameters, options).Result;
+        var categories = result.Data as IList<string?>;
+
+        if (categories is not null && categories.Count > 0)
+        {
+            _interviewService.PrepareInterviewQuestions(categories);
+        }
     }
 
     protected void FilterList(string? search = null)
@@ -65,7 +89,7 @@ public partial class Index
             throw new ArgumentNullException(nameof(_interviewService));
         }
 
-        if (_interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT].Contains(question))
+        if (_interviewService.QuestionLists[QuestionListType.Current].Contains(question))
         {
             _interviewService.UpdateQuestion(question, new InterviewQuestion { IsPinned = !question.IsPinned });
 
@@ -85,7 +109,7 @@ public partial class Index
             throw new ArgumentNullException(nameof(_snackbar));
         }
 
-        if (!_interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT].Any(x => x.Rating > 0))
+        if (!_interviewService.QuestionLists[QuestionListType.Current].Any(x => x.Rating > 0))
         {
             _snackbar.Add(InterviewConstants.ReportSnackbarNoRatingText, Severity.Error);
 
@@ -98,7 +122,7 @@ public partial class Index
         }
 
         var parameters = new DialogParameters();
-        parameters.Add(InterviewConstants.ReportDialogQuestionsParameter, _interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT]);
+        parameters.Add(InterviewConstants.ReportDialogQuestionsParameter, _interviewService.QuestionLists[QuestionListType.Current]);
 
         var options = new DialogOptions
         {
@@ -121,28 +145,50 @@ public partial class Index
             throw new ArgumentNullException(nameof(_interviewService));
         }
 
-        var dialogParams = new DialogParameters();
+        var parameters = new DialogParameters();
         DialogResult? result;
+        DialogOptions? options;
 
-        if (question is null)
+        if (question is not null)
         {
-            dialogParams.Add(InterviewConstants.ResetAllDialogContentParameter, InterviewConstants.ResetAllDialogContent);
+            parameters.Add(InterviewConstants.ResetDialogContentParameter, string.Format(InterviewConstants.ResetDialogContent, question.Title));
+            result = await _dialogService.Show<ResetDialog>(string.Format(InterviewConstants.ResetDialogTitle, question.Title), parameters).Result;
 
-            result = await _dialogService.Show<ResetDialog>(InterviewConstants.ResetAllDialogTitle, dialogParams).Result;
+            if (result?.Data is not null && (bool)result.Data)
+            {
+                _interviewService.ResetQuestion(question);
+            }
         }
         else
         {
-            dialogParams.Add(InterviewConstants.ResetDialogContentParameter, string.Format(InterviewConstants.ResetDialogContent, question.Title));
+            parameters.Add(InterviewConstants.ResetAllDialogContentParameter, InterviewConstants.ResetAllDialogContent);
+            result = await _dialogService.Show<ResetDialog>(InterviewConstants.ResetAllDialogTitle, parameters).Result;
 
-            result = await _dialogService.Show<ResetDialog>(string.Format(InterviewConstants.ResetDialogTitle, question.Title), dialogParams).Result;
+            if (result?.Data is not null && (bool)result.Data)
+            {
+                parameters = new DialogParameters();
+                parameters.Add(InterviewConstants.SetupDialogCategoriesParameter, _interviewService.GetCategories());
+
+                options = new DialogOptions
+                {
+                    MaxWidth = MaxWidth.Small,
+                    CloseButton = false,
+                    FullWidth = true,
+                };
+
+                result = await _dialogService.Show<SetupDialog>(InterviewConstants.SetupDialogTitle, parameters, options).Result;
+                var categories = result.Data as IList<string?>;
+
+                if (categories is null)
+                {
+                    throw new InvalidDataException($"{nameof(categories)} is null, dialog result is corrupted.");
+                }
+
+                _interviewService.ResetQuestions(categories);
+            }
         }
 
-        if (result?.Data is not null && (bool)result.Data)
-        {
-            _interviewService.ResetQuestions(question);
-
-            FilterList();
-        }
+        FilterList();
     }
 
     protected async void OpenNoteDialog(InterviewQuestion question)
@@ -200,7 +246,7 @@ public partial class Index
 
         FilterList(value);
 
-        return _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED];
+        return _interviewService.QuestionLists[QuestionListType.Filtered];
     }
 
     protected IEnumerable<InterviewQuestion> Search(InterviewQuestion value)
@@ -210,11 +256,11 @@ public partial class Index
             throw new InvalidOperationException($"{nameof(_interviewService)} cannot be null.");
         }
 
-        _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED] =
-            _interviewService.InterviewQuestionLists[InterviewQuestionListType.CURRENT].Where(q => q.Equals(value));
+        _interviewService.QuestionLists[QuestionListType.Filtered] =
+            _interviewService.QuestionLists[QuestionListType.Current].Where(q => q.Equals(value));
 
         StateHasChanged();
 
-        return _interviewService.InterviewQuestionLists[InterviewQuestionListType.FILTERED];
+        return _interviewService.QuestionLists[QuestionListType.Filtered];
     }
 }

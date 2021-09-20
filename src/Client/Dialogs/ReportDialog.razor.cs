@@ -1,10 +1,8 @@
 ﻿
 using InterviewApp.Client.Constants;
-using InterviewApp.Client.Extensions;
 using InterviewApp.Client.Services.Interface;
 using InterviewApp.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using MudBlazor;
 using System.Text;
 
@@ -12,9 +10,11 @@ namespace InterviewApp.Client.Dialogs;
 
 public partial class ReportDialog
 {
-    [CascadingParameter] MudDialogInstance? MudDialog { get; set; }
+    [CascadingParameter] 
+    MudDialogInstance? MudDialog { get; set; }
 
-    [Parameter] public List<InterviewQuestion>? Questions { get; set; }
+    [Parameter] 
+    public List<InterviewQuestion>? Questions { get; set; }
 
     [Inject]
     public IClipboardService? ClipboardService { get; set; }
@@ -43,7 +43,7 @@ public partial class ReportDialog
                 var averageRating = Math.Round((double)ratedQuestions.Sum(x => x.Rating) / ratedQuestions.Count(), 2);
                 var averageDifficulty = Math.Round((double)ratedQuestions.Sum(x => x.Difficulty ?? 0) / ratedQuestions.Count(), 2);
 
-                titleText.AppendLine($"Based on rated questions ({ratedQuestions.Count()} / 10)");
+                titleText.AppendLine($"Based on rated questions ({ratedQuestions.Count()})");
                 titleText.AppendLine($"Average rating: {averageRating} / 5");
                 titleText.AppendLine($"Average difficulty: {averageDifficulty} / 5");
 
